@@ -1,0 +1,42 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+    <p>
+    The secret number was: {{ secret_number }}
+    </p>
+
+    <p>
+    The Sender's message was: {{ sender_message }}
+    </p>
+
+    <p>
+    The Receiver's guess was: {{ receiver_guess }}
+    </p>
+
+    <p>
+    The Sender's payoff: {{ sender_payoff }}
+    </p>
+
+    <p>
+    The Receiver's payoff: {{ receiver_payoff }}
+    </p>
+    </div>
+</div>
+
+    {{ next_button }}
+
+{{ endblock }}
+

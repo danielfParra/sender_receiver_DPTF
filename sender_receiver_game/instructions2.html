@@ -1,0 +1,222 @@
+{{ block title }}
+Instructions
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+        <h3>
+        How will the payoffs be determined?
+    </h3>
+
+    <p>
+        Of the {{ Constants.num_rounds }} rounds of the experiment, the computer will randomly choose half of them,
+        which will be considered relevant for the determination of your payoffs.
+        If a round is randomly chosen to be payoff-relevant,
+        this means that this round will count towards your earnings.
+    </p>
+
+    <p>
+        For each payoff-relevant round, the payoffs are as follows:
+    </p>
+
+      <p>
+        <input id="info_button2" type="button" value="&#xf178" onclick="button_click(info_button2, paragraph2);" />
+    </p>
+
+    <div id="paragraph2" class="hidden-paragraph">
+
+        <br>
+
+    <h3>
+         Sender’s payoff:
+    </h3>
+
+ <p>
+    The Sender can earn a bonus of <b>{{Constants.BONUS_AMOUNT}} pesos</b> depending on the Receiver’s guess in this round.
+     In particular, the probability of earning the <b>{{Constants.BONUS_AMOUNT}} pesos</b> bonus is increasing in the
+     Receiver’s guess. The higher the Receiver’s guess is, the more likely it is that the Sender will win
+     <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
+</p>
+
+<p>
+    Simply put, the Sender will earn more if the Receiver guesses a higher number.
+</p>
+
+<p>
+    If you want to see a detailed description of how your winning chance increases in the Receiver’s guess,
+    please click the following button:
+
+<!-- Button trigger modal -->
+
+<button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
+    Details of the Sender’s payoff
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="moreinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sender’s payoff detailed description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+    The Receiver’s guess is a number between 0 and 6. This number is used to determine
+            the Sender’s payoff according to the following formula:
+</p>
+
+<div class="card bg-light my-3">
+  <div class="card-body">
+    <p class="text-center" style="font-size: 1rem;">
+      <b>Probability of the Sender receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+    </p>
+    <p class="text-center" style="font-size: 1.3rem;">
+      100 - &#40;100 / 36&#41; &times; &#40;6 - Receiver's guess&#41;<sup>2</sup>
+    </p>
+  </div>
+</div>
+
+
+<p>
+    The formula takes the square of the difference between the Receiver’s guess and 6. The resulting number
+    is multiplied by a constant and then subtracted from 100.
+</p>
+
+<p>
+    Suppose that the Receiver’s guess is equal to 6. In this case, the difference is zero,
+    and the Sender’s probability of winning the bonus is 100%. In contrast, when the Receiver’s guess is 0,
+    the squared difference is equal to 36. This implies that the Sender’s probability of winning the bonus is 0%.
+</p>
+
+<p>
+    The principle underlying the formula is simple: The closer the Receiver’s guess is to the highest possible guess,
+    the higher the chance that the Sender receives a payoff of <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
+</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</p>
+
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button3, paragraph3);" />
+</p>
+
+    </div>
+
+
+  <div id="paragraph3" class="hidden-paragraph">
+<p></p>
+
+<h3>
+    Receiver’s payoff:
+</h3>
+<p>
+    The Receiver can also earn a bonus of <b>{{ Constants.BONUS_AMOUNT }} pesos</b> depending on the accuracy
+    of their guess. In particular, the probability of the Receiver earning the
+    <b>{{ Constants.BONUS_AMOUNT }} pesos</b> bonus increases with the accuracy of the Receiver’s guess.
+    The more accurate the guess is, the more likely it is that the Receiver will win <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+</p>
+
+<p>
+    Simply put, the Receiver earns more when they guess a number closer to the secret number.
+</p>
+
+<p>
+    If you want to see a detailed description of how the Receiver’s winning chance increases with the
+    accuracy of their guess, please click the following button:
+
+
+<!-- Button trigger modal -->
+
+<button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
+    Details of the Receiver’s payoff
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="moreinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Receiver’s payoff detailed description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+ <p>
+    The Receiver’s guess is a number between <b>0 and 6</b>.
+     This number is used to determine the Receivers’s payoff according to the following formula:
+</p>
+
+<div class="card bg-light my-3">
+  <div class="card-body">
+    <p class="text-center" style="font-size: 1.5rem;">
+      <b>Probability of the Receiver receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+    </p>
+    <p class="text-center" style="font-size: 1.75rem;">
+      <b>100 - &#40;100 / 36&#41; &times; &#40;Secret number - Receiver's guess&#41;<sup>2</sup></b>
+    </p>
+  </div>
+</div>
+
+<p>
+    The formula takes the square of the difference between the Receiver’s guess and the secret number.
+    The resulting number is multiplied by a constant and then subtracted from 100.
+</p>
+
+<p>
+    Suppose that the Receiver’s guess is exactly equal to the secret number.
+    In this case, the difference is zero, and the Receiver’s chance of winning the bonus is 100%.
+    As the Receiver’s guess moves away from the true value of the secret number,
+    the difference becomes larger, which decreases the probability of winning the bonus.
+</p>
+
+<p>
+    The principle underlying the formula is simple: The closer the Receiver’s guess is to the secret number,
+    the higher the chance that the Receiver receives a payoff of <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</p>
+
+</p>
+  </div>
+
+    </div>
+    </div>
+
+<div id="next" style="display: none">
+        {{ next_button }}
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Load the custom javascript functions -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

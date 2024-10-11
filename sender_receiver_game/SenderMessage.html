@@ -1,0 +1,26 @@
+{{ block title }}
+    Sender's Message
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+    You are the Sender.
+    </p>
+<p>
+    <label for="id_sender_message" style="font-size: 20px;">
+        Choose a number to send as your message to the Receiver.
+    </label>
+    {{ form.sender_message }}
+</p>
+
+    {{ next_button }}
+
+{{ endblock }}

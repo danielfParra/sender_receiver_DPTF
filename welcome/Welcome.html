@@ -1,0 +1,37 @@
+{{ block title }}
+    Welcome!
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+{{ endblock }}
+
+
+{{ block content }}
+
+    <p>
+        Welcome to our experiment!
+    </p>
+
+    <p>
+        Please read the instructions carefully. If you have a question, please raise your hand.
+        We will then come over to you and answer your question in private.
+    </p>
+
+    <p>
+        During the experiment you are not allowed to use electronic devices or to communicate with other participants.
+        If you violate these rules, we must exclude you from the experiment and the payout.
+    </p>
+
+    <p>
+        You have already received <b>{{ Constants.SHOW_UP_FEE }}</b> pesos for showing-up to the experiment.
+        During the experiment you will be able to earn additional money.
+        What you earn depends partly on your decisions, partly on the decisions of others, and partly on chance.
+        We explain how the game that determines your payoffs will work on the next screens.
+    </p>
+
+
+    {{ next_button }}
+
+{{ endblock }}

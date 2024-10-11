@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+Thank you for participation in this study!
+{% endblock %}
+
+{% block content %}
+
+<div class="card border-secondary mb-3">
+  <div class="card-header">
+    <h5>Payment</h5>
+  </div>
+  <div class="card-body"
+       title="In case something went wrong, please make a screenshot and contact us via Prolific.">
+    <p>
+        Based on your decisions you will
+      receive  {{ payoff }} after
+      the end of the study. The latter might take some time, so we ask
+      you to be patient.
+    </p>
+
+
+<div class="card border-secondary mb-3">
+  <div class="card-header">
+    <h5>Contact</h5>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="btn-group float-right">
+        <div class="pl-3">{% next_button %}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

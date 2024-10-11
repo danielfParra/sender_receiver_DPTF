@@ -1,0 +1,63 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Consent Form and data protection information for online experiments
+{% endblock %}
+
+{% block content %}
+<p>
+The Berlin Social Science Center (Wissenschaftszentrum Berlin für
+Sozialforschung, WZB), Reichpietschufer 50, 10785 Berlin is conducting a
+scientific online study today. You have been recruited for this study
+because you have registered in the Prolific recruitment system. The
+procedures will be explained to you before the start of the
+study.
+</p>
+<p>
+During the study you will face a number of different tasks and your
+responses will be recorded by our computer system. The data recorded in the
+study do not allow any inference about the participation or the decisions
+or responses of individual who participate in the study. Correspondingly,
+the analysis and presentation of all results of this study will be
+anonymized. The anonymous research data will be archived and will possibly be
+made available to other scientists for further use.
+</p>
+
+<p>
+The data generated in the study will not be linked to the data in the Prolific
+recruitment system. The data collected for the payment of compensation (e-mail
+address or bank details) will always be managed by Prolific. We will have only access to your identifier,
+which we cannot link to your Prolific profile data.
+Participation in today‘s experiment is of course entirely voluntary.
+There will be no disadvantages for you if you decide not to participate. You
+have the possibility to exit the study at any time.
+</p>
+
+<p>
+We want to ask for your consent to participate in the study and to the
+implied processing of data. You can revoke your consent at any time with an
+effect for the future, for example, by sending an e-mail to experimente@wzb.eu.
+Your consent is at the same time the legal basis for the processing of data.
+</p>
+
+<p>
+For any further information about the processing of your data and data
+protection, especially about your rights to disclosure, correction, deletion,
+limitations of processing of data, objection, data transmission and complaints
+to a supervisory body, please contact the data protection officer of WZB:
+<a href="mailto:dataprotection@wzb.eu?subject=WZB%20Prolific%20study%20data">
+        dataprotection@wzb.eu.
+      </a>
+
+</p>
+
+<p>
+You cannot participate in today's experiment without consenting.
+</p>
+
+{% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

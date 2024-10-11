@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Consent Form and data protection information for online experiments
+{% endblock %}
+
+{% block content %}
+
+<p>
+    Info related to consent 1.
+</p>
+
+<p>
+You cannot participate in today's experiment without consenting.
+</p>
+
+{% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

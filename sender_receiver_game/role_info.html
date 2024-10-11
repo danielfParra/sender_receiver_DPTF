@@ -1,0 +1,32 @@
+{{ block title }}
+ Your role
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body ">
+    <p>
+        Today, you are a <b>{{ player.role }}</b>.
+    </p>
+
+    <p>
+      You will keep this role for all 24 rounds of the game.
+    </p>
+
+    <p>
+        <i> Before starting, we’d like you to answer the questions on the next page to check your understanding.</i>
+    </p>
+
+
+
+    </div>
+</div>
+    {{ next_button }}
+
+{{ endblock }}

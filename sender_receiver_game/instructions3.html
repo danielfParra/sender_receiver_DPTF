@@ -1,0 +1,65 @@
+{{ block title }}
+Instructions
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+        <h3>
+       How does the matching of Senders and Receivers work?
+    </h3>
+<p>
+    At the beginning of the experiment, you will be randomly allocated into groups of ten participants-five Senders
+    and five Receivers. In every round of the experiment, Senders and Receivers are randomly re-matched into five pairs.
+    This means that in any round, you can be matched with any Receiver in your group.
+</p>
+
+<p>
+    <i>[Think it would be good to have a picture here titled “Your matching group” and then have stylized avatars of
+        5 Senders and 5 Receivers.]</i>
+</p>
+
+<h3>Summary: Each round of the game goes as follows:</h3>
+<ol>
+    <li>The computer generates a secret number.</li>
+    <li>The Sender sends a message to the Receiver.</li>
+    <li>The Receiver receives the message and guesses the secret number.</li>
+    <li>Both of you receive feedback.</li>
+</ol>
+
+<p>
+    The Sender’s expected bonus is higher when the Receiver guesses a higher number.
+    The Receiver’s expected bonus is higher if the guess is closer to the secret number.
+    The Sender doesn't know the secret number when they send the message.
+    The Receiver knows the Sender doesn't know the secret number.
+</p>
+
+<p>
+    The experiment ends after <b>{{Constants.num_rounds}}</b> of the game.
+</p>
+    </div>
+        </div>
+
+        {{ next_button }}
+
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Load the custom javascript functions -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

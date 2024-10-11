@@ -1,0 +1,118 @@
+{{ block title }}
+Instructions
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+    <h3>
+        Instructions
+    </h3>
+
+    <p>
+        Today, you will be randomly paired with another participant to play a game.
+        The computer has randomly assigned you the role of Sender or Receiver, which you will keep for
+        the <b>{{ Constants.num_rounds }}</b> rounds of the experiment.
+        We will tell you your role on the next screen. In each round, if you are a Sender,
+        you will be randomly matched with a Receiver, and vice versa. Your partner will change randomly from
+        one round to the next. Neither of you will know the identity of the other, and all interactions will
+        be anonymized by the computers.
+    </p>
+
+      <p>
+        <input id="info_button2" type="button" value="&#xf178" onclick="button_click(info_button2, paragraph2);" />
+    </p>
+
+    <div id="paragraph2" class="hidden-paragraph">
+
+        <br>
+
+    <h3>
+         General description of the game
+    </h3>
+
+ <p>
+     <br>
+    Each round of the game has four steps.
+</p>
+<ol>
+    <li>
+        The computer generates a secret number, which is 0, 1, 2, 3, 4, 5, or 6.
+    </li>
+    <li>
+        The Sender sends a message to the Receiver saying "The secret number is X."
+        The Sender can choose any 0, 1, 2, 3, 4, 5, or 6 for X. For example, if the Sender chooses “2”,
+        the Receiver will receive the message "The secret number is 2." While choosing which message to send,
+        the Sender does not know the secret number.
+    </li>
+    <li>
+        The Receiver observes the message and guesses the secret number.
+        The receiver can guess any number between 0 and 6, including two-digit numbers.
+        For example, a Receiver who thinks that 1 and 2 are equally likely can guess 1.50, and a Receiver
+        who thinks that the secret number is either 4 or 5 but most likely 5 can make a guess between
+        4 and 5 but closer to 5, such as 4.8.
+    </li>
+    <li>
+        Both the Sender and the Receiver will receive feedback.
+        This feedback will include the secret number, the original message, and the recipient's guess.
+    </li>
+</ol>
+
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button3, paragraph3);" />
+</p>
+
+    </div>
+
+
+  <div id="paragraph3" class="hidden-paragraph">
+<p></p>
+
+<p>
+    <b> How does the computer generate the secret number?</b>
+    You can think of the computer as a device that randomly selects one of
+    seven balls from an urn that are numbered 0, 1, 2, 3, 4, 5, 6.
+</p>
+
+<p>
+    [Picture of urn]
+</p>
+
+<p>
+    As the urn contains one ball of each number, the probability of generating any given
+    number between 0 and 6 is equal. Consequently, in the absence of any information,
+    you reasonably assumed that the secret number will, on average, be equal to 3.5.
+    These draws are completely independent across rounds. This means that you should not strategize
+    about the value of the secret number based on the value of secret number in a previous round.
+</p>
+  </div>
+
+    </div>
+    </div>
+
+<div id="next" style="display: none">
+        {{ next_button }}
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Load the custom javascript functions -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{{ block title }}
+ {{ endblock }}
+
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body ">
+    <p>
+        We will now start the game. In each round, you will have {{Constants.TIME_PER_ROUND }} seconds time to
+        choose your message to the Receiver. The Receiver will then have {{Constants.TIME_PER_ROUND }} seconds
+        time to make a guess. After the Receiver makes a guess, you will observe feedback for 5 seconds.
+        Then, a new round starts.
+    </p>
+
+    <p>
+        <strong>Important:</strong> Make sure that you choose your message within the 20 seconds allotted to you.
+        If you do not choose your message in time, your payoff for this round will be zero!
+    </p>
+
+    </div>
+</div>
+    {{ next_button }}
+
+{{ endblock }}
