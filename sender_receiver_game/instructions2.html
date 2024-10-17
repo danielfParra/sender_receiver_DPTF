@@ -37,28 +37,28 @@ Instructions
         <br>
 
     <h3>
-         Sender’s payoff:
+         Player A’s payoff:
     </h3>
 
  <p>
-    The Sender can earn a bonus of <b>{{Constants.BONUS_AMOUNT}} pesos</b> depending on the Receiver’s guess in this round.
+    The Player A can earn a bonus of <b>{{Constants.BONUS_AMOUNT}} pesos</b> depending on the Player B’s guess in this round.
      In particular, the probability of earning the <b>{{Constants.BONUS_AMOUNT}} pesos</b> bonus is increasing in the
-     Receiver’s guess. The higher the Receiver’s guess is, the more likely it is that the Sender will win
+     Player B’s guess. The higher the Player B’s guess is, the more likely it is that the Player A will win
      <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
 </p>
 
 <p>
-    Simply put, the Sender will earn more if the Receiver guesses a higher number.
+    Simply put, the Player A will earn more if the Player B guesses a higher number.
 </p>
 
 <p>
-    If you want to see a detailed description of how your winning chance increases in the Receiver’s guess,
+    If you want to see a detailed description of how your winning chance increases in the Player B’s guess,
     please click the following button:
 
 <!-- Button trigger modal -->
 
 <button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
-    Details of the Sender’s payoff
+    Details of the Player A’s payoff
 </button>
 
 <!-- Modal -->
@@ -66,41 +66,41 @@ Instructions
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sender’s payoff detailed description</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Player A’s payoff detailed description</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>
-    The Receiver’s guess is a number between 0 and 6. This number is used to determine
-            the Sender’s payoff according to the following formula:
+    The Player B’s guess is a number between 1 and 6. This number is used to determine
+            the Player A’s payoff according to the following formula:
 </p>
 
 <div class="card bg-light my-3">
   <div class="card-body">
     <p class="text-center" style="font-size: 1rem;">
-      <b>Probability of the Sender receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+      <b>Probability of the Player A receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
     <p class="text-center" style="font-size: 1.3rem;">
-      100 - &#40;100 / 36&#41; &times; &#40;6 - Receiver's guess&#41;<sup>2</sup>
+      100 - &#40;100 / 36&#41; &times; &#40;6 - Player B's guess&#41;<sup>2</sup>
     </p>
   </div>
 </div>
 
 
 <p>
-    The formula takes the square of the difference between the Receiver’s guess and 6. The resulting number
+    The formula takes the square of the difference between the Player B’s guess and 6. The resulting number
     is multiplied by a constant and then subtracted from 100.
 </p>
 
 <p>
-    Suppose that the Receiver’s guess is equal to 6. In this case, the difference is zero,
-    and the Sender’s probability of winning the bonus is 100%. In contrast, when the Receiver’s guess is 0,
-    the squared difference is equal to 36. This implies that the Sender’s probability of winning the bonus is 0%.
+    Suppose that the Player B’s guess is equal to 6. In this case, the difference is zero,
+    and the Player A’s probability of winning the bonus is 100%. In contrast, when the Player B’s guess is 1,
+    the squared difference is equal to 25. This implies that the Player A’s probability of winning the bonus is 0%.
 </p>
 
 <p>
-    The principle underlying the formula is simple: The closer the Receiver’s guess is to the highest possible guess,
-    the higher the chance that the Sender receives a payoff of <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
+    The principle underlying the formula is simple: The closer the Player B’s guess is to the highest possible guess,
+    the higher the chance that the Player A receives a payoff of <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
 </p>
 
       </div>
@@ -123,28 +123,28 @@ Instructions
 <p></p>
 
 <h3>
-    Receiver’s payoff:
+    Player B’s payoff:
 </h3>
 <p>
-    The Receiver can also earn a bonus of <b>{{ Constants.BONUS_AMOUNT }} pesos</b> depending on the accuracy
-    of their guess. In particular, the probability of the Receiver earning the
-    <b>{{ Constants.BONUS_AMOUNT }} pesos</b> bonus increases with the accuracy of the Receiver’s guess.
-    The more accurate the guess is, the more likely it is that the Receiver will win <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+    The Player B can also earn a bonus of <b>{{ Constants.BONUS_AMOUNT }} pesos</b> depending on the accuracy
+    of their guess. In particular, the probability of the Player B earning the
+    <b>{{ Constants.BONUS_AMOUNT }} pesos</b> bonus increases with the accuracy of the Player B’s guess.
+    The more accurate the guess is, the more likely it is that the Player B will win <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
 </p>
 
 <p>
-    Simply put, the Receiver earns more when they guess a number closer to the secret number.
+    Simply put, the Player B earns more when they guess a number closer to the secret number.
 </p>
 
 <p>
-    If you want to see a detailed description of how the Receiver’s winning chance increases with the
+    If you want to see a detailed description of how the Player B’s winning chance increases with the
     accuracy of their guess, please click the following button:
 
 
 <!-- Button trigger modal -->
 
 <button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
-    Details of the Receiver’s payoff
+    Details of the Player B’s payoff
 </button>
 
 <!-- Modal -->
@@ -152,41 +152,41 @@ Instructions
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Receiver’s payoff detailed description</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Player B’s payoff detailed description</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
  <p>
-    The Receiver’s guess is a number between <b>0 and 6</b>.
-     This number is used to determine the Receivers’s payoff according to the following formula:
+    The Player B’s guess is a number between <b>1 and 6</b>.
+     This number is used to determine the Player Bs’s payoff according to the following formula:
 </p>
 
 <div class="card bg-light my-3">
   <div class="card-body">
     <p class="text-center" style="font-size: 1.5rem;">
-      <b>Probability of the Receiver receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+      <b>Probability of the Player B receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
     <p class="text-center" style="font-size: 1.75rem;">
-      <b>100 - &#40;100 / 36&#41; &times; &#40;Secret number - Receiver's guess&#41;<sup>2</sup></b>
+      <b>100 - &#40;100 / 36&#41; &times; &#40;Secret number - Player B's guess&#41;<sup>2</sup></b>
     </p>
   </div>
 </div>
 
 <p>
-    The formula takes the square of the difference between the Receiver’s guess and the secret number.
+    The formula takes the square of the difference between the Player B’s guess and the secret number.
     The resulting number is multiplied by a constant and then subtracted from 100.
 </p>
 
 <p>
-    Suppose that the Receiver’s guess is exactly equal to the secret number.
-    In this case, the difference is zero, and the Receiver’s chance of winning the bonus is 100%.
-    As the Receiver’s guess moves away from the true value of the secret number,
+    Suppose that the Player B’s guess is exactly equal to the secret number.
+    In this case, the difference is zero, and the Player B’s chance of winning the bonus is 100%.
+    As the Player B’s guess moves away from the true value of the secret number,
     the difference becomes larger, which decreases the probability of winning the bonus.
 </p>
 
 <p>
-    The principle underlying the formula is simple: The closer the Receiver’s guess is to the secret number,
-    the higher the chance that the Receiver receives a payoff of <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+    The principle underlying the formula is simple: The closer the Player B’s guess is to the secret number,
+    the higher the chance that the Player B receives a payoff of <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
 </p>
 
       </div>

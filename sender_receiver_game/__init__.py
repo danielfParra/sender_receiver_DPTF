@@ -8,8 +8,8 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds = 24
     BONUS_AMOUNT = Currency(5000)
-    SENDER_ROLE = 'Sender'
-    RECEIVER_ROLE = 'Receiver'
+    SENDER_ROLE = 'Player A'
+    RECEIVER_ROLE = 'Player B'
     TIME_PER_ROUND = 20
 
 
@@ -18,11 +18,10 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    secret_number = models.IntegerField(min=0, max=6)
+    secret_number = models.IntegerField(min=1, max=6)
 
     sender_message = models.IntegerField(
         choices=[
-            [0, '0'],
             [1, '1'],
             [2, '2'],
             [3, '3'],
@@ -33,7 +32,7 @@ class Group(BaseGroup):
     )
 
 
-    receiver_guess = models.FloatField(min=-1, max=6)
+    receiver_guess = models.FloatField(min=0, max=6)
 
 
 class Player(BasePlayer):
@@ -41,7 +40,7 @@ class Player(BasePlayer):
 
 
 def set_payoffs(group: Group):
-    group.secret_number = random.randint(0, 6)
+    group.secret_number = random.randint(1, 6)
 
     sender = group.get_player_by_id(1)
     receiver = group.get_player_by_id(2)
@@ -162,10 +161,10 @@ class ReceiverGuess(Page):
     def js_vars(player: Player):
         return dict(
             max_guess=6,  # Maximum allowed guess
-            min_guess=0  # Minimum allowed guess
+            min_guess=1  # Minimum allowed guess
         )
     def before_next_page(player, timeout_happened):
-        player.group.receiver_guess = -1
+        player.group.receiver_guess = 0
 
 
 class ResultsWaitPage(WaitPage):
@@ -179,8 +178,8 @@ class Results(Page):
             'secret_number': self.group.secret_number,
             'sender_message': self.group.sender_message,
             'receiver_guess': self.group.receiver_guess,
-            'sender_payoff': self.group.get_player_by_role('Sender').payoff,
-            'receiver_payoff': self.group.get_player_by_role('Receiver').payoff,
+            'sender_payoff': self.group.get_player_by_role('Player A').payoff,
+            'receiver_payoff': self.group.get_player_by_role('Player B').payoff,
         }
 
     timeout_seconds = 15
