@@ -81,7 +81,7 @@ Instructions
       <b>Probability of the Player A receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
     <p class="text-center" style="font-size: 1.3rem;">
-      100 - &#40;100 / 36&#41; &times; &#40;6 - Player B's guess&#41;<sup>2</sup>
+      <b>(Player B's guess - 1) / 5 * 100</b>
     </p>
   </div>
 </div>
@@ -143,16 +143,16 @@ Instructions
 
 <!-- Button trigger modal -->
 
-<button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
+<button type="button" name="more_info2" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo2">
     Details of the Player B’s payoff
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="moreinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="moreinfo2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Player B’s payoff detailed description</h5>
+        <h5 class="modal-title" id="exampleModalLabel2">Player B’s payoff detailed description</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -166,8 +166,8 @@ Instructions
     <p class="text-center" style="font-size: 1.5rem;">
       <b>Probability of the Player B receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
-    <p class="text-center" style="font-size: 1.75rem;">
-      <b>100 - &#40;100 / 36&#41; &times; &#40;Secret number - Player B's guess&#41;<sup>2</sup></b>
+    <p class="text-center" style="font-size: 1.3rem;">
+      <b>100 - &#40;100 / 25&#41; &times; &#40;Secret number - Player B's guess&#41;<sup>2</sup></b>
     </p>
   </div>
 </div>
