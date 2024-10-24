@@ -38,8 +38,9 @@
 
     <h4 class="card-title">Move the slider to select your guess.</h4>
 
-<input id="slider" value="0" type="range" name="receiver_guess" oninput="updateDescription(this)" step="0.01"
-class="form-range">
+<input id="slider" value="0" type="range" name="receiver_guess" oninput="updateDescription(this)" step="0.1"
+       class="form-range" min="1" max="6">
+
 
       <h5 id="description"></h5>
 <!-- by leaving the description blank initially, we prompt the user to move the slider,
@@ -62,11 +63,6 @@ reducing the anchoring/default effect. -->
     }
 
 </script>
-
-
-
-
-
 
 {{ formfield_errors 'receiver_guess' }}
 

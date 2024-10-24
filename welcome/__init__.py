@@ -8,8 +8,8 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds = 1
     BONUS_AMOUNT = Currency(5000)
-    SENDER_ROLE = 'Sender'
-    RECEIVER_ROLE = 'Receiver'
+    SENDER_ROLE = 'Player A'
+    RECEIVER_ROLE = 'Player B'
     SHOW_UP_FEE = Currency(5000)
 
 class Subsession(BaseSubsession):
@@ -38,9 +38,9 @@ class Welcome(Page):
     def before_next_page(player: Player, timeout_happened):
 
         if player.id_in_group == 1:
-            player.participant.role = 'Sender'
+            player.participant.role = 'Player A'
         else:
-            player.participant.role = 'Receiver'
+            player.participant.role = 'Player B'
 
         
 

@@ -77,11 +77,20 @@ Instructions
 
 <div class="card bg-light my-3">
   <div class="card-body">
-    <p class="text-center" style="font-size: 1rem;">
+    <p class="text-center" style="font-size: 0.8rem;">
       <b>Probability of the Player A receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
-    <p class="text-center" style="font-size: 1.3rem;">
-      <b>(Player B's guess - 1) / 5 * 100</b>
+    <p class="text-center" style="font-size: 1.5rem;">
+        <math>
+  <mfrac>
+    <mrow>
+      <mi>Player&nbsp;B's&nbsp;guess&nbsp;-&nbsp;1</mi>
+    </mrow>
+    <mn>5</mn>
+  </mfrac>
+  <mo>&times;</mo>
+  <mn>100</mn>
+        </math>
     </p>
   </div>
 </div>
@@ -163,11 +172,33 @@ Instructions
 
 <div class="card bg-light my-3">
   <div class="card-body">
-    <p class="text-center" style="font-size: 1.5rem;">
+    <p class="text-center" style="font-size: 0.8rem;">
       <b>Probability of the Player B receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
     </p>
     <p class="text-center" style="font-size: 1.3rem;">
-      <b>100 - &#40;100 / 25&#41; &times; &#40;Secret number - Player B's guess&#41;<sup>2</sup></b>
+      <math>
+  <mn>100</mn>
+  <mo>-</mo>
+  <mrow>
+    <mfrac>
+      <mn>100</mn>
+      <mn>25</mn>
+    </mfrac>
+  </mrow>
+  <mo>&times;</mo>
+  <mo>(</mo>
+  <mi>Secret&nbsp;number</mi>
+  <mo>-</mo>
+  <mi>Player&nbsp;B's&nbsp;guess</mi>
+  <mo>)</mo>
+  <msup>
+    <mrow>
+      <mo></mo>
+    </mrow>
+    <mn>2</mn>
+  </msup>
+</math>
+
     </p>
   </div>
 </div>

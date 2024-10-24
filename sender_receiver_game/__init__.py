@@ -12,23 +12,25 @@ class Constants(BaseConstants):
     RECEIVER_ROLE = 'Player B'
     TIME_PER_ROUND = 20
 
-# Predefined lists of payoff-relevant rounds for senders and receivers
-# These vectors should be 12 rounds out of the total 24, for each role
-PREDEFINED_SENDER_ROUNDS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
-PREDEFINED_RECEIVER_ROUNDS = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
+    # Predefined lists of payoff-relevant rounds for senders and receivers
+    # These vectors should be 12 rounds out of the total 24, for each role
+    PREDEFINED_SENDER_ROUNDS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
+    PREDEFINED_RECEIVER_ROUNDS = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
+
+
 
 class Subsession(BaseSubsession):
-    def creating_session(self):
-        # Assign the predefined payoff-relevant rounds to each participant based on their role
-        for p in self.session.get_participants():
-            if p.role == 'sender':
-                p.sender_payoff_rounds = PREDEFINED_SENDER_ROUNDS
-            else:  # Receiver
-                p.receiver_payoff_rounds = PREDEFINED_RECEIVER_ROUNDS
+        def creating_session(self):
+            # Assign the predefined payoff-relevant rounds to each participant based on their role
+            for p in self.session.get_participants():
+                if p.role == SENDER_ROLE:
+                    p.sender_payoff_rounds = PREDEFINED_SENDER_ROUNDS
+                elif p.role == RECEIVER_ROLE:
+                    p.receiver_payoff_rounds = PREDEFINED_RECEIVER_ROUNDS
 
 
 class Group(BaseGroup):
-    secret_number = models.IntegerField(min=1, max=6)
+    secret_number = models.IntegerField()
 
     sender_message = models.IntegerField(
         choices=[
@@ -50,12 +52,15 @@ class Player(BasePlayer):
 
 
 def set_payoffs(group: Group):
-    # Randomly select a secret number between 1 and 6
-    group.secret_number = random.randint(1, 6)
-
     # Get the sender and receiver players
     sender = group.get_player_by_id(1)
     receiver = group.get_player_by_id(2)
+
+    # Determine if the current round is payoff-relevant for the sender and receiver
+    is_sender_payoff_relevant = sender.round_number in Constants.PREDEFINED_SENDER_ROUNDS
+    is_receiver_payoff_relevant = receiver.round_number in Constants.PREDEFINED_RECEIVER_ROUNDS
+
+
 
     # Calculate the probability of winning based on guessed number
     # Linear probability: P(win bonus) = (guessed number - 1) / 5
@@ -67,6 +72,8 @@ def set_payoffs(group: Group):
         sender_prob = 0
     else:
         sender_prob = (group.receiver_guess - 1) / 5  # Linear increase in probability based on receiver's guess
+
+    print(sender_prob)
 
     # Calculate the receiver's probability based on the given quadratic formula
     if group.receiver_guess == 0:
@@ -82,6 +89,11 @@ def set_payoffs(group: Group):
     sender.payoff = Constants.BONUS_AMOUNT if sender_wins else Currency(0)
     receiver.payoff = Constants.BONUS_AMOUNT if receiver_wins else Currency(0)
 
+    # Print the round details along with payoff relevance
+    print(f"Round {sender.round_number}: Secret number: {group.secret_number}, Sender message: {group.sender_message}, "
+          f"Receiver guess: {group.receiver_guess}, Sender wins: {sender_wins}, Receiver wins: {receiver_wins}, "
+          f"Sender payoff: {sender.payoff}, Receiver payoff: {receiver.payoff}, "
+          f"Sender payoff relevant: {is_sender_payoff_relevant}, Receiver payoff relevant: {is_receiver_payoff_relevant}")
 # pages.py
 
 class instructions1(Page):
@@ -166,7 +178,10 @@ class SenderMessage(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         if timeout_happened:
-            player.group.sender_message = 0
+            player.group.sender_message = 0  # Remove the comma to avoid tuple creation
+
+        # Generate a new secret number for each round (whether timeout happens or not)
+        player.group.secret_number = random.randint(1, 6)
 
 
 class WaitForSender(WaitPage):
@@ -198,8 +213,11 @@ class ReceiverGuess(Page):
             max_guess=6,  # Maximum allowed guess
             min_guess=1  # Minimum allowed guess
         )
+    @staticmethod
     def before_next_page(player, timeout_happened):
-        player.group.receiver_guess = 0
+        # Only set receiver_guess to 0 if timeout happens
+        if timeout_happened:
+            player.group.receiver_guess = 0
 
 
 class ResultsWaitPage(WaitPage):
@@ -209,12 +227,16 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     @staticmethod
     def vars_for_template(self):
+        # Get the sender and receiver players
+        sender = self.group.get_player_by_id(1)
+        receiver = self.group.get_player_by_id(2)
+
         return {
             'secret_number': self.group.secret_number,
             'sender_message': self.group.sender_message,
             'receiver_guess': self.group.receiver_guess,
-            'sender_payoff': self.group.get_player_by_role('Player A').payoff,
-            'receiver_payoff': self.group.get_player_by_role('Player B').payoff,
+            'sender_payoff': sender.payoff,
+            'receiver_payoff': receiver.payoff,
         }
 
     timeout_seconds = 15
