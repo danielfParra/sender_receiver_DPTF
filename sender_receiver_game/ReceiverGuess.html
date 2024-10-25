@@ -11,6 +11,20 @@
 
 {{ block content }}
 
+<!-- Hide the timer initially and show it when 10 seconds are left -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer').hide();  // Initially hide the timer
+
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            // Show the timer when there are only 10 seconds left
+            if (event.offset.totalSeconds === 10) {
+                $('.otree-timer').show().addClass('blinking-timer');  // Add blinking effect
+            }
+        });
+    });
+</script>
+
   <p class="text-center">
     You are the Player B. The Player A's message is below.
 </p>
@@ -23,6 +37,13 @@
     </div>
   </div>
 </div>
+
+    <!-- Show message on whether the round is relevant for Participant A (Sender) -->
+    {% if is_sender_payoff_relevant %}
+        <p>This round is <strong>payoff-relevant</strong> for Participant A.</p>
+    {% else %}
+        <p>This round is <strong>not payoff-relevant</strong> for Participant A.</p>
+    {% endif %}
 
 <p class="text-center">
     Now you have to guess the secret number. You can enter any number between 1 and 6,
@@ -65,6 +86,5 @@ reducing the anchoring/default effect. -->
 </script>
 
 {{ formfield_errors 'receiver_guess' }}
-
 
 {{ endblock }}

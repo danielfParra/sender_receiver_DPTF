@@ -14,9 +14,12 @@ class Constants(BaseConstants):
 
     # Predefined lists of payoff-relevant rounds for senders and receivers
     # These vectors should be 12 rounds out of the total 24, for each role
-    PREDEFINED_SENDER_ROUNDS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
-    PREDEFINED_RECEIVER_ROUNDS = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
 
+    # Sender's payoff-relevant rounds
+    PREDEFINED_SENDER_ROUNDS = [2, 5, 7, 9, 11, 13, 15, 16, 18, 19, 20, 23]
+
+    # Receiver's payoff-relevant rounds
+    PREDEFINED_RECEIVER_ROUNDS = [1, 3, 4, 6, 8, 10, 12, 14, 17, 21, 22, 24]
 
 
 class Subsession(BaseSubsession):
@@ -173,7 +176,7 @@ class SenderMessage(Page):
     def is_displayed(player):
         return player.id_in_group == 1
 
-    timeout_seconds = 20
+    timeout_seconds = Constants.TIME_PER_ROUND
 
     @staticmethod
     def before_next_page(player, timeout_happened):
@@ -196,17 +199,20 @@ class ReceiverGuess(Page):
     def is_displayed(player):
         return player.id_in_group == 2
 
-    timeout_seconds = 20
-
+    timeout_seconds = Constants.TIME_PER_ROUND
     @staticmethod
     def vars_for_template(player: Player):
-        # Fetch sender message from the group model
+        # Obtener el mensaje del sender
         sender_message = player.group.sender_message
 
-        return dict(
-            sender_message=sender_message  # Pass the sender's message to the template
-        )
+        # Verificar si la ronda es payoff-relevant para el Sender (Participante A)
+        current_round = player.round_number
+        is_sender_payoff_relevant = current_round in Constants.PREDEFINED_SENDER_ROUNDS
 
+        return dict(
+            sender_message=sender_message,  # Pasar el mensaje del sender
+            is_sender_payoff_relevant=is_sender_payoff_relevant  # Pasar si la ronda es payoff-relevant para el Sender
+        )
     @staticmethod
     def js_vars(player: Player):
         return dict(
@@ -239,8 +245,27 @@ class Results(Page):
             'receiver_payoff': receiver.payoff,
         }
 
-    timeout_seconds = 15
+    timeout_seconds = Constants.TIME_PER_ROUND
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        current_round = player.round_number
+        sender = player.group.get_player_by_id(1)
+        receiver = player.group.get_player_by_id(2)
+
+        # Check if this round is payoff-relevant for the sender and receiver
+        is_sender_payoff_relevant = current_round in Constants.PREDEFINED_SENDER_ROUNDS
+        is_receiver_payoff_relevant = current_round in Constants.PREDEFINED_RECEIVER_ROUNDS
+
+        # If the round is NOT payoff-relevant, we subtract that round's payout from the cumulative total.
+        if not is_sender_payoff_relevant:
+            sender.payoff = 0 # Subtract payment if not relevant
+        if not is_receiver_payoff_relevant:
+            receiver.payoff = 0 # Subtract payment if not relevant
+
+        print(f"Round {current_round}: Sender Payoff = {sender.payoff}, Receiver Payoff = {receiver.payoff}")
+        print(f"Total Sender Payoff (Cumulative): {sender.participant.payoff}")
+        print(f"Total Receiver Payoff (Cumulative): {receiver.participant.payoff}")
 
 page_sequence = [instructions1, instructions2, instructions3, instructions4, role_info, start_page, Round_number, SenderMessage, WaitForSender, ReceiverGuess,
                  ResultsWaitPage, Results]

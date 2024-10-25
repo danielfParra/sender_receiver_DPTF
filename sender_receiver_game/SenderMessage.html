@@ -11,6 +11,20 @@
 
 {{ block content }}
 
+<!-- Hide the timer initially and show it when 10 seconds are left -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer').hide();  // Initially hide the timer
+
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            // Show the timer when there are only 10 seconds left
+            if (event.offset.totalSeconds === 10) {
+                $('.otree-timer').show().addClass('blinking-timer');  // Add blinking effect
+            }
+        });
+    });
+</script>
+
     <p>
     You are the Player A.
     </p>
