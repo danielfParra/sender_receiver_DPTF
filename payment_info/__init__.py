@@ -25,12 +25,11 @@ class PaymentInfo(Page):
     def vars_for_template(self):
         payoff = self.participant.payoff
         return dict(
-            payoff=payoff,
+            payoff=Currency(payoff),
         )
+#
+# class Redirect(Page):
+#     pass
 
-class Redirect(Page):
-    pass
 
-
-page_sequence = [PaymentInfo,
-                 Redirect]
+page_sequence = [PaymentInfo]

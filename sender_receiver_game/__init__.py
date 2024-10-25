@@ -6,7 +6,7 @@ import math
 class Constants(BaseConstants):
     name_in_url = 'sender_receiver_game'
     players_per_group = 2
-    num_rounds = 24
+    num_rounds = 6
     BONUS_AMOUNT = Currency(5000)
     SENDER_ROLE = 'Player A'
     RECEIVER_ROLE = 'Player B'
@@ -51,8 +51,8 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
-
+    is_sender_payoff_relevant = models.BooleanField(initial=False)
+    is_receiver_payoff_relevant = models.BooleanField(initial=False)
 
 def set_payoffs(group: Group):
     # Get the sender and receiver players
@@ -181,11 +181,26 @@ class SenderMessage(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         if timeout_happened:
-            player.group.sender_message = 0  # Remove the comma to avoid tuple creation
+            player.group.sender_message = 0
 
         # Generate a new secret number for each round (whether timeout happens or not)
         player.group.secret_number = random.randint(1, 6)
 
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        group = player.group
+        current_round = player.round_number
+
+        # Handle timeout: set sender_message to 0 if timeout happens
+        if timeout_happened:
+            group.sender_message = 0
+
+        # Generate a new secret number for each round
+        group.secret_number = random.randint(1, 6)
+
+        # Determine if the current round is payoff-relevant for sender and receiver
+        player.is_sender_payoff_relevant = current_round in Constants.PREDEFINED_SENDER_ROUNDS
+        player.is_receiver_payoff_relevant = current_round in Constants.PREDEFINED_RECEIVER_ROUNDS
 
 class WaitForSender(WaitPage):
     pass
@@ -224,6 +239,12 @@ class ReceiverGuess(Page):
         # Only set receiver_guess to 0 if timeout happens
         if timeout_happened:
             player.group.receiver_guess = 0
+
+        current_round = player.round_number
+
+        # Determine if the current round is payoff-relevant for sender and receiver
+        player.is_sender_payoff_relevant = current_round in Constants.PREDEFINED_SENDER_ROUNDS
+        player.is_receiver_payoff_relevant = current_round in Constants.PREDEFINED_RECEIVER_ROUNDS
 
 
 class ResultsWaitPage(WaitPage):

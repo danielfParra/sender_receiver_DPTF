@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
         name='sender_receiver_game',
         display_name="Sender-Receiver Game",
         num_demo_participants=2,
-        app_sequence=['consent','welcome','sender_receiver_game', 'survey', 'payment_info'],
+        app_sequence=['consent','welcome','sender_receiver_game', 'payment_info', 'survey'],
         num_rounds=3,
     ),
 ]
@@ -28,7 +28,7 @@ SESSION_FIELDS = []
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = ''
+REAL_WORLD_CURRENCY_CODE = 'USD'
 REAL_WORLD_CURRENCY_DECIMAL_PLACES = 0
 USE_POINTS = False
 
