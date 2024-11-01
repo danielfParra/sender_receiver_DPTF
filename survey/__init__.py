@@ -17,7 +17,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     # Demographics
-    age = models.IntegerField(label='Age', min=13, max=125)
+    age = models.IntegerField(label='Age', min=13, max=100)
 
     gender = models.IntegerField(
         label='Gender',

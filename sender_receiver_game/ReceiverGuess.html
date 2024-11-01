@@ -25,18 +25,23 @@
     });
 </script>
 
-  <p class="text-center">
-    You are the Player B. The Player A's message is below.
+<p class="text-center">
+    You are the <b>Player B</b>. The Player A's message is below.
 </p>
 
 <div class="d-flex justify-content-center">
-  <div class="card text-dark bg-light mb-3" style="width: 24rem;">
-    <div class="card-body text-center">
-      <h5 class="card-title">Player A's message</h5>
-      <p class="card-text">The secret number is {{ group.sender_message }}.</p>
+    <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">Player A's message</h5>
+            {% if group.sender_message > 0 %}
+                <p class="card-text">The secret number is {{ group.sender_message }}.</p>
+            {% else %}
+                <p class="card-text">Player A didn't send a message on time.</p>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </div>
+
 
     <!-- Show message on whether the round is relevant for Participant A (Sender) -->
     {% if is_sender_payoff_relevant %}

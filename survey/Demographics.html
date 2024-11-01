@@ -1,19 +1,30 @@
-{% extends "global/Page.html" %}
-{% load otree %}
+{{ block title }} Final questionnaire {{ endblock }}
+{{ block content }}
 
-{% block title %}
-    Survey
-{% endblock %}
+{{ block styles }}
+<!-- Load the custom css styles -->
+<link href="{{ static 'myStyle.css' }}" rel="stylesheet"/>
 
-{% block content %}
+<style>
+    .col-form-label{
+        font-size:20px;
+    }
+    .form-control{
+        font-size:20px;
+            }
+
+</style>
+
+{{ endblock }}
+
 
     <p>
         Please answer the following questions.
     </p>
 
-    {% formfields %}
+    {{ formfields }}
 
-    {% next_button %}
+    {{ next_button }}
 
-{% endblock %}
+{{ endblock }}
 

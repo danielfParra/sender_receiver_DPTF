@@ -88,15 +88,28 @@ def set_payoffs(group: Group):
     sender_wins = random.random() < sender_prob  # Random binomial trial based on sender's win probability
     receiver_wins = random.random() < receiver_prob  # Random binomial trial based on receiver's win probability
 
-    # Set payoffs: BONUS_AMOUNT if the player wins, otherwise 0
-    sender.payoff = Constants.BONUS_AMOUNT if sender_wins else Currency(0)
-    receiver.payoff = Constants.BONUS_AMOUNT if receiver_wins else Currency(0)
+    # Apply special conditions for sender and receiver payoffs
+    if group.sender_message == 0:
+        # If sender didn't send a message, their payoff is 0
+        sender.payoff = Currency(0)
+    elif group.receiver_guess == 0:
+        # If receiver didn't guess, their payoff is 0 and sender gets the bonus if they sent a message
+        receiver.payoff = Currency(0)
+        sender.payoff = Constants.BONUS_AMOUNT if group.sender_message > 0 else Currency(0)
+    else:
+        # Set payoffs based on win probabilities without considering payoff relevance
+        sender.payoff = Constants.BONUS_AMOUNT if sender_wins else Currency(0)
+        receiver.payoff = Constants.BONUS_AMOUNT if receiver_wins else Currency(0)
 
-    # Print the round details along with payoff relevance
-    print(f"Round {sender.round_number}: Secret number: {group.secret_number}, Sender message: {group.sender_message}, "
-          f"Receiver guess: {group.receiver_guess}, Sender wins: {sender_wins}, Receiver wins: {receiver_wins}, "
-          f"Sender payoff: {sender.payoff}, Receiver payoff: {receiver.payoff}, "
-          f"Sender payoff relevant: {is_sender_payoff_relevant}, Receiver payoff relevant: {is_receiver_payoff_relevant}")
+    # Print statement with detailed round information for debugging
+    print(f"Round {sender.round_number}:")
+    print(f"  - Secret number: {group.secret_number}")
+    print(f"  - Sender's message: {group.sender_message}")
+    print(f"  - Receiver's guess: {group.receiver_guess}")
+    print(f"  - Sender probability: {sender_prob}, Receiver probability: {receiver_prob}")
+    print(f"  - Sender wins: {sender_wins}, Receiver wins: {receiver_wins}")
+    print(f"  - Sender payoff: {sender.payoff} (Relevant: {is_sender_payoff_relevant})")
+    print(f"  - Receiver payoff: {receiver.payoff} (Relevant: {is_receiver_payoff_relevant})")
 # pages.py
 
 class instructions1(Page):
