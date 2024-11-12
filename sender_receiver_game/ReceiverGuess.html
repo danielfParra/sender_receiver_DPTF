@@ -25,16 +25,26 @@
     });
 </script>
 
-<p class="text-center">
-    You are the <b>Player B</b>. The Player A's message is below.
+<p>
+    You are <b>Player B</b>. Your task is to guess the secret number. 
 </p>
+
+<p>
+When making that guess, you can refer to Player A's message below.
+</p>
+
+{% if is_sender_payoff_relevant %}
+    <p>This round is <strong>payoff-relevant</strong> for Player A.</p>
+{% else %}
+    <p>This round is <strong>not payoff-relevant</strong> for Player A.</p>
+{% endif %}
 
 <div class="d-flex justify-content-center">
     <div class="card text-dark bg-light mb-3" style="width: 24rem;">
         <div class="card-body text-center">
-            <h5 class="card-title">Player A's message</h5>
+            <h5 class="card-title">Player A's message:</h5>
             {% if group.sender_message > 0 %}
-                <p class="card-text">The secret number is {{ group.sender_message }}.</p>
+                <p class="card-text">The secret number is <b>{{ group.sender_message }}</b>.</p>
             {% else %}
                 <p class="card-text">Player A didn't send a message on time.</p>
             {% endif %}
@@ -44,11 +54,7 @@
 
 
     <!-- Show message on whether the round is relevant for Participant A (Sender) -->
-    {% if is_sender_payoff_relevant %}
-        <p>This round is <strong>payoff-relevant</strong> for Participant A.</p>
-    {% else %}
-        <p>This round is <strong>not payoff-relevant</strong> for Participant A.</p>
-    {% endif %}
+    
 
 <p class="text-center">
     Now you have to guess the secret number. You can enter any number between 1 and 6,
@@ -56,10 +62,11 @@
 </p>
 
 
+<!---
 <div class="callout callout-light">
     <strong>REMEMBER:</strong> Mention what a 4.5 means or something like that.
 </div>
-
+-->
       <br>
 
     <h4 class="card-title">Move the slider to select your guess.</h4>
@@ -75,8 +82,10 @@ reducing the anchoring/default effect. -->
     <br>
 
     <!-- Replace the default {{ next_button }} with a custom green Bootstrap button -->
-<div class="d-grid gap-2 col-6 mx-auto">
-<button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
+<div id="submit_button" class="hidden-paragraph">
+    <div class="d-grid gap-2 col-6 mx-auto">
+    <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
+    </div>
 </div>
 
 <script>
@@ -86,10 +95,34 @@ reducing the anchoring/default effect. -->
         document.getElementById("slider").setAttribute("min", js_vars.min_guess); //These lines set min and max of the slider
         let receiver_guess = parseFloat(input.value).toFixed(1);
         description.innerText = `Your guessed number: ${receiver_guess}`
+
+        if (parseFloat(input.value) >= 1 && parseFloat(input.value) <= 6) {
+            show_text(submit_button);
+        } else {
+            hide_text(submit_button);
+        }
     }
 
 </script>
 
 {{ formfield_errors 'receiver_guess' }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    function valueInput (input_answer) {
+        console.log('hello');
+        
+    };
+
+    function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    };
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    };
+</script>
 
 {{ endblock }}

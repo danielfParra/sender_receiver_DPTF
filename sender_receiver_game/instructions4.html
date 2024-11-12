@@ -16,26 +16,33 @@ Instructions
 <h3>Summary: Each round of the game goes as follows:</h3>
 <ol>
     <li>The computer generates a secret number.</li>
-    <li>The Player A sends a message to the Player B.</li>
-    <li>The Player B receives the message and guesses the secret number.</li>
+    <li>Player A sends a message to Player B.</li>
+    <li>Player B receives the message and guesses the secret number.</li>
     <li>Both of you receive feedback.</li>
 </ol>
 
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button3, paragraph3);" />
+</p>
+
+<div id="paragraph3" class="hidden-paragraph">
   <h3>  Please keep the following points in mind </h3>
 <ul>
     <li>Player A’s expected bonus is higher when Player B guesses a higher number.</li>
     <li>Player B’s expected bonus is higher if the guess is closer to the secret number.</li>
-    <li>Player A doesn't know the secret number when they send the message.</li>
+    <li>Player A does not know the secret number when they send the message.</li>
 <!--    <li>Player B knows that Player A doesn't know the secret number.</li>-->
 </ul>
 
 <p>
-    The experiment ends after <b>{{Constants.num_rounds}}</b> of the game.
+    The experiment ends after <b>{{Constants.num_rounds}} rounds</b> of the game.
 </p>
     </div>
         </div>
-
+    </div>
+<div id="next" style="display: none">
         {{ next_button }}
+</div>
 
 
 

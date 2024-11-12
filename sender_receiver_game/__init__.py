@@ -192,6 +192,15 @@ class SenderMessage(Page):
     timeout_seconds = Constants.TIME_PER_ROUND
 
     @staticmethod
+    def vars_for_template(player: Player):
+        current_round = player.round_number
+        is_receiver_payoff_relevant = current_round in Constants.PREDEFINED_RECEIVER_ROUNDS
+        return dict(
+            is_receiver_payoff_relevant=is_receiver_payoff_relevant
+        )
+
+
+    @staticmethod
     def before_next_page(player, timeout_happened):
         if timeout_happened:
             player.group.sender_message = 0

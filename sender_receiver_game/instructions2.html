@@ -18,10 +18,17 @@ Instructions
     </h3>
 
     <p>
-        Of the {{ Constants.num_rounds }} rounds of the experiment, the computer will randomly choose half of them,
-        which will be considered relevant for the determination of your payoffs.
+        Of the <b>{{ Constants.num_rounds }} rounds</b> of the experiment, the computer will randomly choose <b>half of them,</b>
+        which will be considered <b>relevant</b> for the determination of <b>your payoffs.</b>
         If a round is randomly chosen to be payoff-relevant,
-        this means that this round will count towards your earnings.
+        this means that this round will <b>count towards your earnings.</b> Otherwise, it will not.
+    </p>
+
+    <p>
+      You will <b>never know</b> whether the current round is <b>payoff-relevant for you</b>. However, <b>you will be</b> able to see whether the <b>current round is payoff-relevant for your counterpart.</b> You can only influence the counterpart’s earnings when it is their payoff-relevant round.  
+    </p>
+    <p>
+      Which rounds are payoff-relevant for Player A and Player B is <b>determined independently.</b> This means that knowing whether the current round is payoff-relevant for your counterpart does not imply that it is more or less likely that the current round is payoff-relevant for you.
     </p>
 
     <p>
@@ -41,24 +48,24 @@ Instructions
     </h3>
 
  <p>
-    The Player A can earn a bonus of <b>{{Constants.BONUS_AMOUNT}} pesos</b> depending on the Player B’s guess in this round.
-     In particular, the probability of earning the <b>{{Constants.BONUS_AMOUNT}} pesos</b> bonus is increasing in the
-     Player B’s guess. The higher the Player B’s guess is, the more likely it is that the Player A will win
+    <b>Player A</b> can earn a bonus of <b>{{Constants.BONUS_AMOUNT}} pesos</b> depending on Player B’s guess in this round.
+     In particular, the <b>probability of Player A earning the {{Constants.BONUS_AMOUNT}} pesos bonus</b> is <b>increasing</b> in
+     <b>Player B’s guess.</b> The higher Player B’s guess is, the more likely it is that Player A will win
      <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
 </p>
 
 <p>
-    Simply put, the Player A will earn more if the Player B guesses a higher number.
+    Simply put, Player A will earn more if Player B guesses a higher number.
 </p>
 
 <p>
-    If you want to see a detailed description of how your winning chance increases in the Player B’s guess,
+    If you want to see a detailed description of how your winning chance increases in Player B’s guess,
     please click the following button:
 
 <!-- Button trigger modal -->
 
 <button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
-    Details of the Player A’s payoff
+    Details of Player A’s payoff
 </button>
 
 <!-- Modal -->
@@ -71,14 +78,14 @@ Instructions
       </div>
       <div class="modal-body">
         <p>
-    The Player B’s guess is a number between 1 and 6. This number is used to determine
-            the Player A’s payoff according to the following formula:
+    Player B’s guess is a number between 1 and 6. This number is used to determine
+            Player A’s payoff according to the following formula:
 </p>
 
 <div class="card bg-light my-3">
   <div class="card-body">
     <p class="text-center" style="font-size: 0.8rem;">
-      <b>Probability of the Player A receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+      <b>Probability of Player A receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent)=</b>
     </p>
     <p class="text-center" style="font-size: 1.5rem;">
         <math>
@@ -97,19 +104,19 @@ Instructions
 
 
 <p>
-    The formula takes the square of the difference between the Player B’s guess and 6. The resulting number
-    is multiplied by a constant and then subtracted from 100.
+    The formula takes the difference between Player B’s guess and 6. The resulting number
+    is divided by 5 and then multiplied by 100. 
 </p>
 
 <p>
-    Suppose that the Player B’s guess is equal to 6. In this case, the difference is zero,
-    and the Player A’s probability of winning the bonus is 100%. In contrast, when the Player B’s guess is 1,
-    the squared difference is equal to 25. This implies that the Player A’s probability of winning the bonus is 0%.
+    Suppose that Player B’s guess is equal to 6. In this case, the difference is 5,
+    and Player A’s probability of winning the bonus is 100%. In contrast, when Player B’s guess is 1,
+    the difference is equal to 0. This implies that Player A’s probability of winning the bonus is 0%.
 </p>
 
 <p>
-    The principle underlying the formula is simple: The closer the Player B’s guess is to the highest possible guess,
-    the higher the chance that the Player A receives a payoff of <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
+    The principle underlying the formula is simple: The closer Player B’s guess is to the highest possible guess,
+    the higher the chance that Player A receives a payoff of <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
 </p>
 
       </div>
@@ -135,25 +142,25 @@ Instructions
     Player B’s payoff:
 </h3>
 <p>
-    The Player B can also earn a bonus of <b>{{ Constants.BONUS_AMOUNT }} pesos</b> depending on the accuracy
-    of their guess. In particular, the probability of the Player B earning the
-    <b>{{ Constants.BONUS_AMOUNT }} pesos</b> bonus increases with the accuracy of the Player B’s guess.
-    The more accurate the guess is, the more likely it is that the Player B will win <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+    Player B can also earn a bonus of <b>{{ Constants.BONUS_AMOUNT }} pesos</b> depending on the accuracy
+    of their guess. In particular, the <b>probability of Player B earning the
+    {{ Constants.BONUS_AMOUNT }} pesos</b> bonus <b>increases with the accuracy of Player B’s guess.</b>
+    The more accurate the guess is, the more likely it is that Player B will win <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
 </p>
 
 <p>
-    Simply put, the Player B earns more when they guess a number closer to the secret number.
+    Simply put, Player B earns more when they guess a number closer to the secret number.
 </p>
 
 <p>
-    If you want to see a detailed description of how the Player B’s winning chance increases with the
+    If you want to see a detailed description of how Player B’s winning chance increases with the
     accuracy of their guess, please click the following button:
 
 
 <!-- Button trigger modal -->
 
 <button type="button" name="more_info2" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo2">
-    Details of the Player B’s payoff
+    Details of Player B’s payoff
 </button>
 
 <!-- Modal -->
@@ -166,14 +173,14 @@ Instructions
       </div>
       <div class="modal-body">
  <p>
-    The Player B’s guess is a number between <b>1 and 6</b>.
-     This number is used to determine the Player Bs’s payoff according to the following formula:
+    The Player B’s guess is a number between 1 and 6.
+     This number is used to determine Player Bs’s payoff according to the following formula:
 </p>
 
 <div class="card bg-light my-3">
   <div class="card-body">
     <p class="text-center" style="font-size: 0.8rem;">
-      <b>Probability of the Player B receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent):</b>
+      <b>Probability of Player B receiving {{ Constants.BONUS_AMOUNT }} pesos (in percent)=</b>
     </p>
     <p class="text-center" style="font-size: 1.3rem;">
       <math>
@@ -204,20 +211,20 @@ Instructions
 </div>
 
 <p>
-    The formula takes the square of the difference between the Player B’s guess and the secret number.
+    The formula takes the square of the difference between Player B’s guess and the secret number.
     The resulting number is multiplied by a constant and then subtracted from 100.
 </p>
 
 <p>
-    Suppose that the Player B’s guess is exactly equal to the secret number.
-    In this case, the difference is zero, and the Player B’s chance of winning the bonus is 100%.
-    As the Player B’s guess moves away from the true value of the secret number,
+    Suppose that Player B’s guess is exactly equal to the secret number.
+    In this case, the difference is zero, and Player B’s chance of winning the bonus is 100%.
+    As Player B’s guess moves away from the true value of the secret number,
     the difference becomes larger, which decreases the probability of winning the bonus.
 </p>
 
 <p>
-    The principle underlying the formula is simple: The closer the Player B’s guess is to the secret number,
-    the higher the chance that the Player B receives a payoff of <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+    The principle underlying the formula is simple: The closer Player B’s guess is to the secret number,
+    the higher the chance that Player B receives a payoff of <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
 </p>
 
       </div>

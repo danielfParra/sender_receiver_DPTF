@@ -1,5 +1,5 @@
 {{ block title }}
-    Round {{player.round_number}}: Results
+    Round {{player.round_number}}: Feedback
 {{ endblock }}
 
 {{ block styles }}
@@ -29,23 +29,33 @@
 
 <div class="card bg-light border-dark mb-3">
   <div class="card-body">
-    <p class="card-text"> <h5>Your group results in round {{player.round_number}} are the following</h5></p>
-
+    <p class="card-text"> <h5>The results of Round {{player.round_number}} are the following</h5></p>
+    <hr>
         <p class="blocktext"> The secret number was: <span class="payoff">{{ secret_number }}</span> </p>
-        <p class="blocktext"> The Player A's message was: <span class="payoff">{{ sender_message }} </span> </p>
-      <p class="blocktext"> The Player B's guess was: <span class="payoff">{{ receiver_guess }}</span></p>
+        {% if sender_message > 0 %}
+                <p class="blocktext">Player A's message was: <b>{{ sender_message }}</b>.</p>
+        {% else %}
+                <p class="blocktext">Player A didn't send a message on time.</p>
+        {% endif %}
+        {% if receiver_guess > 0 %}
+                <p class="blocktext">Player B's guess was: <b>{{ receiver_guess }}</b>.</p>
+        {% else %}
+                <p class="blocktext">Player B's guess was: <b>{{ sender_message }}</b>.</p>
+        {% endif %}
+      <!--
         <hr>
-      <p class="blocktext"> <strong>The Player A's earnings: =</strong> <span class="payoff">{{ sender_payoff }}</span> </p>.
-      <p class="blocktext"> <strong>The Player B's earnings: =</strong> <span class="payoff">{{ receiver_payoff }}</span> </p>
-
+      <p class="blocktext"> <strong>Player A's earnings: =</strong> <span class="payoff">{{ sender_payoff }}</span> </p>.
+      <p class="blocktext"> <strong>Player B's earnings: =</strong> <span class="payoff">{{ receiver_payoff }}</span> </p>
+        -->
 </div></div>
       <br>
 
+<!--
 <div class="callout callout-danger">
     <strong>Important:</strong> Your earnings will only count in your final payoffs if this round is payoff-relevant to you.
     Remember that half of the rounds are payoff-relevant.
 </div>
-
+-->
 
     {{ next_button }}
 

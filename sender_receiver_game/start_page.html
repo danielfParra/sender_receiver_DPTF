@@ -1,5 +1,5 @@
 {{ block title }}
-We will start the game in the next screen
+We will start the game on the next screen
  {{ endblock }}
 
 {{ block styles }}
@@ -11,17 +11,37 @@ We will start the game in the next screen
 {{ block content }}
 <div class="card bg-light m-3">
     <div class="card-body ">
+
+    {{ if player.participant.role == "Player A" }}
     <p>
-        We will now start the game. In each round, you will have {{Constants.TIME_PER_ROUND }} seconds time to
-        choose your message to the Receiver. The Receiver will then have {{Constants.TIME_PER_ROUND }} seconds
-        time to make a guess. After the Receiver makes a guess, you will observe feedback for 5 seconds.
+        We will now start the game. In each round, you will have <b>{{Constants.TIME_PER_ROUND }} seconds time</b> to
+        choose your message for Player B. Player B will then have {{Constants.TIME_PER_ROUND }} seconds
+        time to make a guess. After Player B makes a guess, you will observe feedback for 5 seconds.
         Then, a new round starts.
     </p>
 
     <p>
-        <strong>Important:</strong> Make sure that you choose your message within the 20 seconds allotted to you.
+        <strong>Important:</strong> Make sure that you choose your message within the {{Constants.TIME_PER_ROUND }} seconds allotted to you.
         If you do not choose your message in time, your payoff for this round will be zero!
     </p>
+
+    {{ else }}
+
+    <p>
+        We will now start the game. In each round, Player A will have <b>{{Constants.TIME_PER_ROUND }} seconds time</b> to
+        choose a message for you. You will then have {{Constants.TIME_PER_ROUND }} seconds
+        time to make a guess. After you make a guess, you will observe feedback for 5 seconds.
+        Then, a new round starts.
+    </p>
+
+    <p>
+        <strong>Important:</strong> Make sure that you make your guess within the {{Constants.TIME_PER_ROUND }} seconds allotted to you.
+        If you do not make a guess in time, your guess will automatically be set to be equal to Player A's message.
+    </p>
+
+    {{ endif }}
+
+    
 
     </div>
 </div>

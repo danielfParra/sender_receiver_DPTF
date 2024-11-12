@@ -1,5 +1,5 @@
 {{ block title }}
-   Round {{player.round_number}}: Send a message to the Player B
+   Round {{player.round_number}}: Send a message to Player B
 {{ endblock }}
 
 {{ block styles }}
@@ -25,16 +25,71 @@
     });
 </script>
 
-    <p>
-    You are the Player A.
-    </p>
 <p>
-    <label for="id_sender_message" style="font-size: 20px;">
-        Choose a number to send as your message to the Player B.
-    </label>
-    {{ form.sender_message }}
+You are Player A. Your task is to send a message to Player B.
 </p>
 
-    {{ next_button }}
+{% if is_receiver_payoff_relevant %}
+<p>This round is <strong>payoff-relevant</strong> for Player B.</p>
+{% else %}
+<p>This round is <strong>not payoff-relevant</strong> for Player B.</p>
+{% endif %}
+
+<p>
+    <label for="id_sender_message" style="font-size: 20px;">
+        Choose a number to send as your message to Player B.
+    </label>
+    <p>
+    <select name="sender_message" id="sender_message" class="form-select form-select-lg"  oninput="valueInput(this.value)">
+        <option value="" selected>Choose here</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+    </select>
+</p>
+</p>
+
+<div id="confirm_button" class="hidden-paragraph">
+    <p>
+        Based on your choice, Player B will receive the following message:
+    </p>
+    <div class="d-flex justify-content-center">
+        <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+            <div class="card-body text-center">
+                    <p class="card-text">The secret number is <b><span id="message"></span></b>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
+        </div>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    function valueInput (input_answer) {
+        if (parseFloat(input_answer) >= 1 && parseFloat(input_answer) <= 6) {
+            msg = document.getElementById('message');
+            msg.innerHTML = input_answer;
+            show_text(confirm_button);
+        } else {
+            hide_text(confirm_button);
+        }
+    };
+
+    function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    };
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    };
+</script>
 
 {{ endblock }}
