@@ -1,30 +1,33 @@
-{{ block title }} Final questionnaire {{ endblock }}
-{{ block content }}
+{{ block title }}
+<i class="fa fa-clipboard-list" aria-hidden="true"></i> Cuestionario Final
+{{ endblock }}
 
 {{ block styles }}
-<!-- Load the custom css styles -->
-<link href="{{ static 'myStyle.css' }}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
 
-<style>
-    .col-form-label{
-        font-size:20px;
-    }
-    .form-control{
-        font-size:20px;
-            }
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body">
+        <h3></h3>
+        <p>Por favor, responde las siguientes preguntas.</p>
 
-</style>
+        {{ formfield 'age' }}
+        {{ formfield 'gender' }}
+        {{ formfield 'education' }}
+        {{ formfield 'student' }}
+        {{ formfield 'experiments' }}
+        {{ formfield 'reasoning' }}
+        {{ formfield 'chosen_role' }}
+    </div>
+</div>
+
+<button class="otree-btn-next btn btn-primary">Continuar</button>
 
 {{ endblock }}
 
-
-    <p>
-        Please answer the following questions.
-    </p>
-
-    {{ formfields }}
-
-    {{ next_button }}
-
-{{ endblock }}
-
+{% block scripts %}
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+{% endblock %}

@@ -1,9 +1,9 @@
 {{ block title }}
-Thank you for participation in this study!
+¡Gracias por participar en este estudio!
 {{ endblock }}
 
 {{ block styles }}
-<!-- Load the custom css styles -->
+<!-- Cargar los estilos CSS personalizados -->
 <link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
 <link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
 
@@ -11,22 +11,29 @@ Thank you for participation in this study!
 
 {{ block content }}
 
-
 <div class="card bg-light border-dark mb-3">
   <div class="card-body">
-    <p class="card-text"> <h5> You will receive a <span class="payoff"> {{ payoff }} </span>  based on your decisions and whether or not the round was payoff relevant.
+    <p class="card-text"> <h5> En este experimento ganaste <span class="payoff"> {{ payoff }} </span> basado en tus
+      decisiones y si la ronda fue o no relevante para el pago.
   </h5></p>
 
+      <h5> Además por el hecho de venir a tiempo y participar en el experimento, recibiste un pago adicional de <span class="payoff">{{ show_up_fee }} </span>. </h5>
+      </p>
+     <h5> <p class="fs-4"> Tu pago total es: <strong class="payoff">{{ total_payment }}</strong>.
+          </h5></p>
+
+    <div class="alert alert-info mt-3" role="alert">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+        <b>Nota:</b> El bono de la tarea de explicación (donde ChatGPT intenta replicar tus adivinanzas) se calculará después de la sesión y se sumará a este monto.
+    </div>
 
   </div></div>
       <br>
 
-<!--
 <div class="callout callout-danger">
-    <strong>Important:</strong> Your earnings will only count in your final payoffs if this round is payoff-relevant to you.
-    Remember that half of the rounds are payoff-relevant.
+    <strong>Importante:</strong> Haz clic en Continuar para completar la encuesta final y que tu pago sea procesado.
 </div>
--->
-    {{ next_button }}
+
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
 
 {{ endblock }}

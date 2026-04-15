@@ -1,0 +1,109 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+<style>
+
+.content-box .content {
+    overflow: hidden;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid;
+    border-color: #ffc107;
+    color: #533f00;
+}
+.content-box .title {
+    min-height: 40px;
+    line-height: 1.2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #ffc107;
+    display: flex;
+    align-items: center;
+    color: #533f00;
+    padding: 10px;
+    border: 2px solid;
+    border-color: #ffc107;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+</style>
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+    <h3><i class="fa fa-question-circle" aria-hidden="true"></i> ¿Qué tan seguro estás?</h3>
+
+    <p>
+        Tu decisión en la pantalla anterior indica que crees que la probabilidad de que el Jugador B haya 
+        adivinado muy cerca de 7 después de recibir este mensaje es del <strong>{{ player.credulity_guess }}%</strong>.
+    </p>
+
+    <div class="content-box" id="question">
+        <div class="title">
+            ¿Qué tan seguro estás de que la probabilidad real está entre {{ lower_bound }}% y {{ upper_bound }}%?
+        </div>
+        <div class="content">
+
+            <p>
+                Por favor, responde usando el control deslizante a continuación.
+                 El control deslizante va del 0% al 100%. 
+                 Puedes mover el control deslizante haciendo clic en él y arrastrándolo a la posición deseada.
+            </p>
+
+            <input id="slider" value="0" type="range" name="credulity_certainty" oninput="updateDescription(this)" step="1" class="form-range" min="0" max="100">
+            <h5 id="description"></h5>
+        </div>
+    </div>
+
+    </div>
+</div>
+<div id="submit_button" class="hidden-paragraph">
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+<script>
+
+  let description = document.getElementById('description');
+  function updateDescription(input) {
+      let certainty = parseFloat(input.value).toFixed(0);
+      description.innerText = `Tu nivel de seguridad: ${certainty}%`;
+
+      if (parseFloat(input.value) >= 0 && parseFloat(input.value) <= 100) {
+          show_text(submit_button);
+      } else {
+          hide_text(submit_button);
+      }
+  }
+
+  function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    }
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    }
+
+</script>
+
+{% endblock %}

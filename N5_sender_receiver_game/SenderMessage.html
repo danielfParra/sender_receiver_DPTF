@@ -1,0 +1,140 @@
+{% extends "global/Base.html" %}
+
+{% block content %}
+<div style="display: flex; margin: 0;">
+
+    
+<!-- Left Pane -->
+<div class="left-pane" style="width: 50%; background-color: #f8f9fa; padding: 20px; box-sizing: border-box; overflow-y: auto; border-right: 1px solid #ddd;">
+   
+    {{ include Constants.SenderReminder }}
+   
+</div>
+
+    <!-- Right Pane -->
+    <div class="right-pane" style="width: 50%; background-color: #fff; padding: 20px; box-sizing: border-box; overflow-y: auto;">
+        <h3>Ronda {{player.round_number}}: Envía un mensaje al Jugador B</h3>
+
+        <p>
+            <label for="id_sender_choice" style="font-size: 20px;">
+                Elige un número para enviar como mensaje al Jugador B.
+            </label>
+            <p data-intro="Elige tu número" data-step="5">
+            <select name="sender_choice" id="sender_choice" class="form-select form-select-lg" oninput="valueInput(this.value)">
+                <option value="" selected>Elige aquí</option>
+                {{ if player.participant.treatment != "Babbling" }}
+                <option value="8">🤖 Enviar Número Secreto Verdadero (Computador)</option>
+                {{ endif }}
+                <option value="1">1️⃣</option>
+                <option value="2">2️⃣</option>
+                <option value="3">3️⃣</option>
+                <option value="4">4️⃣</option>
+                <option value="5">5️⃣</option>
+                <option value="6">6️⃣</option>
+                <option value="7">7️⃣</option>
+                
+            </select>
+        </p>
+        </p>
+
+        <div id="confirm_button" class="hidden-paragraph">
+            <p>
+                <span id="pre_message"></span>
+            </p>
+            <div class="d-flex justify-content-center">
+                <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+                    <div class="card-body text-center">
+                        <p class="card-text">Para recibir el pago más alto, deberías elegir <b><span id="message"></span></b>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button id="submitBtn" type="button" class="btn btn-success btn-lg btn-block" onclick="lockAndWait()">Enviar</button>
+            </div>
+            <!-- Add a waiting message div that will be hidden initially -->
+            <div id="waitingMessage" class="text-center mt-3" style="display: none;">
+                <div class="alert alert-info">
+                    Su elección ha sido registrada. Por favor, espere hasta que expire el tiempo...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    function valueInput (input_answer) {
+        const confirmButton = document.getElementById('confirm_button');
+        const messageSpan = document.getElementById('message');
+        const preMessageSpan = document.getElementById('pre_message');
+
+        if (parseFloat(input_answer) >= 1 && parseFloat(input_answer) <= 7) {
+            preMessageSpan.innerHTML = "Basado en tu elección, el Jugador B recibirá el siguiente mensaje:";
+            messageSpan.innerHTML = input_answer;
+            show_text(confirmButton);
+        } else if (parseFloat(input_answer) === 8) {
+            preMessageSpan.innerHTML = "Basado en tu elección, el computador reemplazará la \"X\" a continuación con el verdadero número secreto:";
+            messageSpan.innerHTML = "X";
+            show_text(confirmButton);
+        }
+        else {
+            messageSpan.innerHTML = "¡Elige un número!";
+            hide_text(confirmButton);
+        }
+    };
+
+    function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    };
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    };
+
+    // Add the new function for locking inputs and delayed submission
+    function lockAndWait() {
+        // Make sure a selection was made
+        const senderChoice = document.getElementById('sender_choice');
+        if (!senderChoice.value) {
+            alert("Please make a selection before submitting.");
+            return;
+        }
+        
+        // Instead of disabling the dropdown, make it readonly
+        // This still allows the value to be submitted but prevents changes
+        senderChoice.setAttribute('readonly', true);
+        senderChoice.style.pointerEvents = 'none';
+        senderChoice.style.backgroundColor = '#e9ecef';
+        
+        // Disable only the submit button
+        document.getElementById('submitBtn').disabled = true;
+        
+        // Show waiting message
+        document.getElementById('waitingMessage').style.display = 'block';
+        
+        // Mark form as ready for submission
+        // This adds a flag that can be checked by oTree's time limit code
+        const form = document.querySelector('form');
+        const readyField = document.createElement('input');
+        readyField.type = 'hidden';
+        readyField.name = 'form_ready';
+        readyField.value = 'true';
+        form.appendChild(readyField);
+    }
+
+
+
+</script>
+
+{% endblock %}
+
+{% block styles %}
+
+<!-- Load the custom css styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+        <h3>
+       ¿Cómo funciona el emparejamiento de Jugadores A y Jugadores B?
+    </h3>
+
+
+ <p>
+    Al inicio del experimento, serás colocado aleatoriamente en un <b>grupo de {{ Constants.POOL_SIZE }} participantes</b>
+     que comparten tu mismo rol (ya sea todos Jugadores A o todos Jugadores B).
+     Tu grupo siempre será emparejado con otro grupo que contiene participantes con el rol opuesto.
+</p>
+
+<p>
+    En cada ronda, los Jugadores A y los Jugadores B de estos dos grupos son <b>emparejados aleatoriamente</b>.
+    Esto significa que cualquier Jugador A puede ser emparejado con cualquier Jugador B del otro grupo,
+    y los emparejamientos cambiarán en cada ronda.
+</p>
+
+
+<p>
+    El computador selecciona aleatoriamente los emparejamientos para cada ronda. Puedes ver el video a continuación para ver cómo funciona esto:
+</p>
+
+
+<div class="d-flex justify-content-center align-items-center">
+    {% if Constants.POOL_SIZE == 5 %}
+    <video class="video-fluid" width="640" height="640" controls>
+        <source src="{% static 'global/Matching.mp4' %}" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+    {% elif Constants.POOL_SIZE == 4 %}
+        <video class="video-fluid" width="640" height="640" controls>
+            <source src="{% static 'global/N4_Matching.mp4' %}" type="video/mp4">
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    {% else %}
+    <video class="video-fluid" width="640" height="640" controls>
+        <source src="{% static 'global/Matching.mp4' %}" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+    {% endif %}
+</div>
+<br>
+
+<br>
+<p>
+    Este proceso de emparejamiento se repite en cada ronda.
+</p>
+
+    </div>
+        </div>
+
+        <button class="otree-btn-next btn btn-primary">Continuar</button>
+
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

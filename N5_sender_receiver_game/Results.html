@@ -1,0 +1,89 @@
+{{ block title }}
+    Ronda {{player.round_number}}: Retroalimentación
+{{ endblock }}
+
+{{ block styles }}
+<!-- Load custom CSS styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+
+{{ endblock }}
+
+{{ block content }}
+
+
+<!-- Hide the timer initially and show it when 10 seconds remain -->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otree-timer').hide();
+
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            // Show the timer when only 10 seconds remain
+            if (event.offset.totalSeconds === 10) {
+                $('.otree-timer').show().addClass('blinking-timer');
+            }
+        });
+    });
+</script>
+
+
+<div class="card bg-light border-dark mb-3">
+  <div class="card-body">
+      <p class="card-text"> <h5>Los resultados de la <b>ronda {{player.round_number}} </b> son los siguientes</h5></p>
+    <hr>
+        {% if sender_message > 0 %}
+                <p class="blocktext">El mensaje del Jugador A fue: <b>{{ sender_message }}</b></p>
+        {% else %}
+                <p class="blocktext">El Jugador A no envió un mensaje a tiempo.</p>
+        {% endif %}
+        {% if treatment == 'Belief' %}
+            {% if receiver_guess > 0 %}
+                <p class="blocktext">Tu creencia reportada: <b>{{ belief_honest_pct }}%</b> de probabilidad de que el Jugador A delegó al computador</p>
+                <p class="blocktext">Adivinanza óptima calculada por el computador: <b>{{ receiver_guess }}</b></p>
+            {% else %}
+                <p class="blocktext">No reportaste tu creencia a tiempo.</p>
+            {% endif %}
+        {% elif treatment == 'NoUncertainty' %}
+            {% if receiver_guess > 0 %}
+                <p class="blocktext">Tu adivinanza fue: <b>{{ receiver_guess }}</b></p>
+                <p class="blocktext">Esta adivinanza se evaluó contra todos los números secretos del grupo: <b>{{ bundle_secret_numbers_display }}</b></p>
+            {% else %}
+                <p class="blocktext">No adivinaste a tiempo.</p>
+                <p class="blocktext">Esta adivinanza se evaluó contra todos los números secretos del grupo: <b>{{ bundle_secret_numbers_display }}</b></p>
+            {% endif %}
+        {% else %}
+            {% if receiver_guess > 0 %}
+                <p class="blocktext">Tu adivinanza fue: <b>{{ receiver_guess }}</b></p>
+            {% else %}
+                {% if sender_message > 0 %}
+                        <p class="blocktext">Tu adivinanza fue: <b>{{ sender_message }}</b></p>
+                {% else %}
+                        <p class="blocktext">No adivinaste a tiempo.</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if treatment != 'NoUncertainty' %}
+        <p class="blocktext"> El número secreto fue: <span class="payoff">{{ secret_number }}</span> </p>
+        {% endif %}
+    </div>
+</div>
+
+<!---
+      <br>
+        <h5><i class="fas fa-coins"></i> Your Additional Earnings</h5>
+        <p class="blocktext">
+            <i class="fas fa-check-circle"></i> Respondiste correctamente <b>{{ correct_answers }}</b> tareas → Ganaste <b>{{ extra_earnings }} pesos</b> ({{ correct_answers }} × {{ piece_rate_decode }})
+        </p>
+<div class="callout callout-danger">
+    <strong>Importante:</strong> Tus ganancias solo contarán en tus pagos finales si esta ronda es relevante para el pago.
+    Recuerda que la mitad de las rondas son relevantes para el pago.
+</div>
+-->
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossorigin="anonymous"></script>
+{{ endblock }}

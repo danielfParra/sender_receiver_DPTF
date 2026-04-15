@@ -1,0 +1,8 @@
+Treatment: ExpertRep
+
+- The participant directly guessed the secret number.
+- In these rounds, the participant only saw the sender message and the general game rules.
+- The participant did not see any x_count, robot count, or explicit delegation probability for the round.
+- Use only the participant explanation and sender_message_encoded for each round.
+- Output one prediction per round using this item schema:
+  {"round": <int>, "predicted_guess": <number>}

@@ -1,0 +1,145 @@
+{{ block title }}
+El Juego
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+    <h3><i class="fas fa-info-circle"></i> Instrucciones</h3>
+
+    <p>
+        Hoy jugarás con otros participantes en esta sala elegidos al azar por el computador.
+        Se te asignará el rol de <b>Jugador A</b> o <b>Jugador B</b> durante todo el juego,
+        que dura <b>{{ Constants.num_rounds }} rondas</b>.
+        Te diremos tu rol después de explicar las reglas.
+    </p>
+    <p>
+        En cada ronda, si eres el Jugador A, serás emparejado al azar con un Jugador B, y viceversa.
+        <b>Tu compañero cambia cada ronda</b>, y ninguno de los dos conocerá la identidad del otro.
+        Todas las interacciones son anónimas.
+    </p>
+
+    <p>
+        En este juego, el Jugador A envía un mensaje al Jugador B, quien luego intenta adivinar un número secreto.
+        Los pagos de ambos jugadores dependen de la adivinanza del Jugador B y del número secreto.
+    </p>
+
+      <p>
+        <input id="info_button2" type="button" value="&#xf178" onclick="button_click(info_button2, paragraph2);" />
+    </p>
+
+    <div id="paragraph2" class="hidden-paragraph">
+
+
+    <h3>
+        <i class="fas fa-gamepad"></i>   Cómo Funciona el Juego
+    </h3>
+
+ <p>
+    Cada ronda del juego tiene <b>cuatro pasos.</b>
+</p>
+<ol>
+    <li>
+       <i class="fas fa-dice"></i>  El computador genera un <b>número secreto</b>, que es <b>1, 2, 3, 4, 5, 6, o 7.</b>
+    </li>
+    <br>
+    <li>
+        <i class="fa fa-envelope" aria-hidden="true"></i> El Jugador A envía <b>un mensaje</b> al Jugador B diciendo <b>"Para recibir el pago más alto, deberías elegir X."</b>
+        <b>El Jugador A puede elegir cualquier número</b> 1, 2, 3, 4, 5, 6, o 7 como valor de X. Explicaremos más sobre las opciones exactas del Jugador A a continuación.
+    </li>
+    <br>
+    <li>
+        <i class="fas fa-question-circle"></i> El Jugador B <b>observa</b> el <b>mensaje</b> y <b>adivina el número secreto.</b>
+        El Jugador B puede <b>adivinar cualquier número</b> entre 1 y 7, incluyendo números con decimales.
+        Por ejemplo, un Jugador B que piensa que 1 y 2 son igualmente probables puede adivinar 1.50, y un Jugador B
+        que piensa que el número secreto es 4 o 5 pero más probablemente 5 puede hacer una adivinanza entre
+        4 y 5 pero más cerca de 5, como 4.8. {{ if player.participant.treatment == "Decode" }}A veces, el Jugador B tendrá que <b>descifrar</b> el mensaje antes de hacer una adivinanza. Explicaremos mejor esto más adelante.{{ endif }}
+    </li>
+
+    <br>
+    <li>
+       <i class="fas fa-chart-bar"></i>  Tanto el Jugador A como el Jugador B recibirán <b>retroalimentación.</b>
+        Esta retroalimentación incluirá el número secreto generado por el computador, el mensaje del Jugador A y la adivinanza del Jugador B.
+    </li>
+</ol>
+
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="button_click(info_button3, paragraph3);" />
+</p>
+
+    </div>
+
+
+  <div id="paragraph3" class="hidden-paragraph">
+<p></p>
+
+<p>
+    <b> ¿Cómo elige el computador el número secreto?</b> <br>
+    Imagina una urna que contiene bolas numeradas del 1 al 7.
+    Cada ronda, el computador elige una bola al azar.
+</p>
+
+ <div class="d-flex justify-content-center">
+    <img src="{% static 'global/urn.png' %}" alt="Imagen de Urna" class="img-fluid" width="50%">
+ </div>
+<br>
+
+<p>
+    Dado que hay exactamente una bola para cada número, <b>cada número tiene la misma probabilidad de ser elegido.</b>
+    En promedio, puedes esperar que el número secreto sea alrededor de 4.
+</p>
+
+<p>
+    La selección en cada ronda es completamente aleatoria. Esto significa que las rondas anteriores no te ayudarán a predecir el próximo número secreto.
+</p>
+
+<p>
+    <input id="info_button4" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button4, paragraph4);" />
+</p>
+
+  </div>
+
+<div id="paragraph4" class="hidden-paragraph">
+    <p>
+    <b>¿Sabe el Jugador A el número secreto?</b><br> No, el Jugador A <b>no sabe</b> el número secreto al enviar el mensaje.<br>
+    </p>
+    <p>
+        <b>¿Qué mensaje puede enviar el Jugador A?</b><br>
+        El Jugador A puede enviar cualquier número del 1 al 7. Por ejemplo, si el Jugador A elige "2," el Jugador B recibe: "Para recibir el pago más alto, deberías elegir 2."
+    </p>
+    <p>
+        Alternativamente, el Jugador A puede <b>delegar</b> la elección al computador 🤖. El computador siempre enviará al Jugador B un mensaje con el número secreto correcto.
+        El Jugador B nunca sabrá si el Jugador A eligió delegar (🤖) o seleccionó el número personalmente.
+    </p>
+</div>
+
+    </div>
+    </div>
+
+<div id="next" style="display: none">
+        <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

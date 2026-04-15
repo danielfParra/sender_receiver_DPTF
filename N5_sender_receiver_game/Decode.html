@@ -1,0 +1,94 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+        <h3>
+            Decodificando el Mensaje
+        </h3>
+
+    <p>
+        En el experimento, habrá dos tipos de Jugador B, a los que llamaremos
+        <b>Decodificador</b> y <b>Directo.</b> El <b>Decodificador</b> tendrá que decodificar el mensaje enviado por el Jugador A. El <b>Directo</b> recibirá el mensaje directamente.
+    </p>
+
+    <p>
+        <input id="info_decode" type="button" value="&#xf178" onclick="button_click(info_decode, decode);" />
+    </p>
+
+    <div id="decode" class="hidden-paragraph">
+        <p>
+            Ambos tipos recibirán el siguiente tipo de mensaje del Jugador A:
+        </p>
+        <div class="d-flex justify-content-center" data-intro="Mensaje del Jugador A." data-step="5" id="message-box">
+            <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><strong>Mensaje del Jugador A:</strong></h5>
+                    <p class="card-text">Para recibir el pago más alto, deberías elegir <b>X</b>.</p>
+                </div>
+            </div>
+        </div>
+
+    <p>
+        El tipo <b>Directo</b> observará directamente el número que el Jugador A pretendía enviar. El <b>Decodificador</b> verá el mensaje en forma de una expresión matemática.
+        Las tareas de decodificación serán de dificultad <strong>similar</strong> a las que resolviste al inicio del experimento.
+        Por ejemplo, si el Jugador A pretendía enviar el número 3, el <b>Decodificador</b> podría ver el mensaje <q>Para recibir el pago más alto, deberías elegir
+        <b>((14 &minus; 2) &times; 2)/ 8).</b></q>
+    </p>
+    <p>
+        <input id="info_questions" type="button" value="&#xf178" onclick="button_click(info_questions, questions);" />
+    </p>    
+    </div>
+
+    <div id="questions" class="hidden-paragraph">
+    <p>
+        El <b>Decodificador</b> debe responder dos preguntas antes de que se acabe el tiempo:
+        <ol>
+            <li>¿Cuál es el número que el Jugador A pretendía enviar?</li>
+            <li>¿Cuál es tu adivinanza del número secreto?</li>
+        </ol>
+        Es importante destacar que el <b>Decodificador</b> no puede adivinar el número secreto hasta que identifique correctamente el número que el Jugador A intentó enviar.
+
+    </p>
+    <p>
+        <input id="info_consequences" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_consequences, consequences);" />
+    </p>
+    </div>
+    
+    <div id="consequences" class="hidden-paragraph">
+        <p><b>Importante:</b></p>
+        <ul>
+            <li>El Jugador B tiene <b>{{ Constants.TIME_PER_ROUND }} segundos</b> para hacer una adivinanza. Si el Decodificador se queda sin tiempo, el número que el Jugador A envió se envía automáticamente como la adivinanza.</li>
+            <li>Los Decodificadores deben esperar <b>{{ Constants.ATTEMPT_DELAY }} segundos</b> entre intentos de decodificar la expresión matemática. No se recomienda adivinar al azar.</li>
+        </ul>
+
+    </div>
+</div>
+    </div>
+<div id="next" style="display: none">
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

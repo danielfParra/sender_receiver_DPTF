@@ -1,0 +1,76 @@
+{{ block title }}
+Última tarea de hoy
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+        <h3><i class="fa fa-pencil" aria-hidden="true"></i> Explica tu estrategia</h3>
+
+        <p>
+            Imagina que le escribes instrucciones a <b>ChatGPT</b> para que adivine el número secreto de la misma manera que lo hiciste tu.
+            Tu quieres que sea capaz de replicar tus decisiones durante el juego anterior.
+        </p>
+        <p>    
+            Describe la regla o método que usaste para decidir tu adivinanza a partir del mensaje.
+        </p>
+        <p>
+            Sé específico/a. Describe tu regla general, de cómo interpretabas la información para decidir cuál número enviar como adivinanza.
+             <b>No</b> listes tus adivinanzas ronda por ronda.
+        </p>
+
+        <div class="card border-warning mb-3">
+            <div class="card-body py-2">
+                <p class="mb-1"><b>💰 Bono extra: {{ Constants.EXPLANATION_BONUS }}</b></p>
+                <p>
+                    ChatGPT usará tu explicación para intentar reproducir tus adivinanzas en 10 rondas al azar.
+                    Cuantas más reproduzca correctamente, mayor tu probabilidad de recibir el bono.
+                    
+                    <button type="button" class="btn btn-outline-warning btn-sm ms-1" data-bs-toggle="modal" data-bs-target="#formulaModal">Más detalles</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="formulaModal" tabindex="-1" aria-labelledby="formulaModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title m-0" id="formulaModalLabel">Detalles del bono</h5>
+                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Se seleccionan 10 rondas al azar. En cada una, ChatGPT recibe el mensaje que viste y tu explicación, e intenta adivinar como tú.</p>
+                <p>Una ronda cuenta como <b>acierto</b> si la diferencia entre tu adivinanza y la de ChatGPT es <b>≤ 1 punto</b>.</p>
+                <p>Tu probabilidad de recibir el bono de <strong>{{ Constants.EXPLANATION_BONUS }}</strong> = proporción de aciertos.</p>
+                <p><em>Ejemplo: 7 aciertos de 10 → 70% de probabilidad de bono.</em></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="mt-4"><i class="fa fa-edit" aria-hidden="true"></i> Escribe tu explicación aquí:</h4>
+        {{ formfield 'strategy_explanation' }}
+
+    </div>
+</div>
+
+<button class="otree-btn-next btn btn-primary">Continuar</button>
+
+{{ endblock }}
+
+{% block scripts %}
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+{% endblock %}

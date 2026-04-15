@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>readme</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="README_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="sender-receiver-game" class="level1">
+<h1>Sender-Receiver game</h1>
+<p><code>oTree</code>: 6.0.11</p>
+<p><code>python</code>: 3.12.4</p>
+</section>
+<section id="experiment-architecture-updated-march-2026" class="level1">
+<h1><strong>📖 Experiment Architecture (Updated March 2026)</strong></h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview"><strong>1️⃣ Overview</strong></h2>
+<p>This experiment has been restructured from a live 2-player interactive game into a <strong>1-player simulation</strong>. All live participants now play exclusively as <strong>Player B (Receivers)</strong>. The actions of Player A (Senders) are simulated using historical data collected from previous experimental sessions.</p>
+</section>
+<section id="single-player-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="single-player-architecture"><strong>2️⃣ Single-Player Architecture</strong></h2>
+<ul>
+<li><strong>Group Size</strong>: <code>players_per_group = None</code> (Each participant is in their own group of 1).</li>
+<li><strong>Role Assignment</strong>: Every participant is assigned the role of <code>Player B</code> (Receiver).</li>
+<li><strong>Historical Data Integration</strong>: Instead of waiting for a live Player A to send a message, the system loads historical messages and secret numbers from a pre-generated CSV file (<code>messages_for_receivers.csv</code>).</li>
+</ul>
+</section>
+<section id="data-mapping-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="data-mapping-assignment"><strong>3️⃣ Data Mapping &amp; Assignment</strong></h2>
+<ul>
+<li>During <code>creating_session</code> (Round 1), each live participant is randomly assigned a unique <code>sender_code</code> from <code>messages_for_receivers.csv</code>.</li>
+<li>For all 4 rounds, the live participant faces the exact sequence of <code>secret_number</code>, <code>sender_message</code>, and <code>sender_choice</code> of their assigned historical sender.</li>
+<li>Assigned codes are marked <code>used = 1</code> in the CSV after session creation to avoid reuse across sessions.</li>
+<li><strong>Pool exhaustion guard</strong>: if the number of unused codes is smaller than the number of participants in the session, the system falls back to the full pool (all rows) before shuffling, so no two participants in the same session ever share a sender code.</li>
+</ul>
+<section id="csv-files" class="level3">
+<h3 class="anchored" data-anchor-id="csv-files">CSV files</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>messages_for_receivers.csv</code></td>
+<td>Default file for <code>ExpertRep</code>. Columns: <code>code</code>, <code>secret_number_R1</code>–<code>R24</code>, <code>sender_message_R1</code>–<code>R24</code>, <code>sender_choice_R1</code>–<code>R24</code>, <code>used</code></td>
+</tr>
+<tr class="even">
+<td><code>messages_for_receivers_belief.csv</code></td>
+<td>File used by <code>Belief</code> treatment (same structure as default file, with independent <code>used</code> tracking)</td>
+</tr>
+<tr class="odd">
+<td><code>messages_for_receivers_with_X.csv</code></td>
+<td>File used by <code>FixBelief</code>. Adds <code>X_R1</code>–<code>X_R24</code> (how many of 4 senders delegated each round)</td>
+</tr>
+<tr class="even">
+<td><code>messages_for_receivers_with_X_secrets.csv</code></td>
+<td>File used by <code>NoUncertainty</code>. Includes <code>X_R1</code>–<code>X_R24</code> and bundled secret numbers <code>secret_number_1_R1</code>–<code>secret_number_4_R24</code> for 4-sender evaluation</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sender_choice-values" class="level3">
+<h3 class="anchored" data-anchor-id="sender_choice-values"><code>sender_choice</code> values</h3>
+<ul>
+<li><code>1</code>–<code>7</code>: Sender manually chose that number to send.</li>
+<li><code>8</code>: Sender delegated to the computer (honest — message equals true secret number).</li>
+</ul>
+</section>
+</section>
+<section id="payoffs-incentives" class="level2">
+<h2 class="anchored" data-anchor-id="payoffs-incentives"><strong>4️⃣ Payoffs &amp; Incentives</strong></h2>
+<ul>
+<li><strong>Decoding Task</strong>: Paid based on a piece-rate (<code>PIECE_RATE_DECODE</code> = 500 COP) per correct answer.</li>
+<li><strong>Sender-Receiver Game</strong>: Quadratic scoring rule; only <code>PREDEFINED_RECEIVER_ROUNDS</code> are payoff-relevant. Bonus = <code>BONUS_AMOUNT</code> (4000 COP).</li>
+<li><strong>Honesty Guess</strong> (<code>HonestyGuess</code> page): Participant guesses the % of times their assigned sender delegated to the computer. Incentivized with <code>HONESTY_GUESS_BONUS</code> (1000 COP) via quadratic scoring.</li>
+<li><strong>Honesty Certainty</strong> (<code>HonestyCertainty</code> page): Follow-up confidence question for the honesty guess.</li>
+<li><strong>Credulity Guess</strong> (<code>FollowingGuess</code> page): Participant guesses the % of times other receivers followed the message when it was 7. Incentivized with <code>CREDULITY_GUESS_BONUS</code> (1000 COP).</li>
+<li><strong>Explanation Task</strong> (<code>ExplanationTask</code> page): Participant writes their guessing strategy. A post-session ChatGPT evaluation determines the bonus (<code>EXPLANATION_BONUS</code> = 4000 COP).</li>
+</ul>
+</section>
+<section id="treatments" class="level2">
+<h2 class="anchored" data-anchor-id="treatments"><strong>5️⃣ Treatments</strong></h2>
+<p>The treatment is set in <code>settings.py</code> via the <code>treatment</code> key in each session config and stored in <code>player.participant.treatment</code>. Assignment happens in <code>welcome/__init__.py</code> with a single line:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>player.participant.treatment <span class="op">=</span> player.session.config[<span class="st">'treatment'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Active treatments:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Treatment</th>
+<th>Session name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ExpertRep</code></td>
+<td><code>sender_receiver_game_expertrep</code></td>
+<td>Baseline: receiver enters a direct guess via slider</td>
+</tr>
+<tr class="even">
+<td><code>Belief</code></td>
+<td><code>sender_receiver_game_belief</code></td>
+<td>Receiver states a belief % about lying; computer computes optimal guess</td>
+</tr>
+<tr class="odd">
+<td><code>FixBelief</code></td>
+<td><code>sender_receiver_game_fixbelief</code></td>
+<td>Receiver sees delegation composition from a 4-sender message bundle (<code>X</code> delegated, <code>4-X</code> did not delegate) and enters one direct guess</td>
+</tr>
+<tr class="even">
+<td><code>NoUncertainty</code></td>
+<td><code>sender_receiver_game_nouncertainty</code></td>
+<td>Receiver sees one message from a 4-sender bundle, enters one direct guess, and payoff is computed by aggregating performance against all 4 bundled secret numbers</td>
+</tr>
+</tbody>
+</table>
+<section id="expertrep" class="level3">
+<h3 class="anchored" data-anchor-id="expertrep"><strong>ExpertRep</strong></h3>
+<p>The baseline treatment. Player A had the option to delegate message selection to a computer that always sends the true secret number. Player B sees the message and moves a slider to enter a direct guess of the secret number.</p>
+</section>
+<section id="belief" class="level3">
+<h3 class="anchored" data-anchor-id="belief"><strong>Belief</strong></h3>
+<p>Player B states their <strong>belief about the likelihood that Player A delegated to the computer</strong> (i.e., was honest). The computer then automatically computes and submits the <strong>optimal guess</strong> using the quadratic scoring rule:</p>
+<p><span class="math display">\[g^* = p \cdot \text{message} + (1 - p) \cdot 4\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the stated belief (fraction honest/delegated) and <span class="math inline">\(4\)</span> is the unconditional mean of the secret number. The belief is stored in <code>player.belief_honest_pct</code> (0–100 integer, <code>initial=0</code>). The optimal guess is computed server-side in <code>ReceiverGuess.before_next_page</code> and written to <code>player.receiver_guess</code>. The belief slider starts at 0% (left) and only reveals the submit button once the participant moves it. On timeout without interaction, <code>belief_honest_pct</code> remains 0, so the computer submits <code>g* = 4</code> (no trust). The decoding step is skipped for this treatment.</p>
+</section>
+<section id="fixbelief" class="level3">
+<h3 class="anchored" data-anchor-id="fixbelief"><strong>FixBelief</strong></h3>
+<p>Receiver sees that each observed message comes from a bundle of 4 prior senders and is informed how many delegated (<code>X</code>) vs did not delegate (<code>4-X</code>). Receiver still submits one direct guess.</p>
+</section>
+<section id="nouncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="nouncertainty"><strong>NoUncertainty</strong></h3>
+<p>Receiver sees one message per round from a 4-sender bundle (plus <code>X</code> delegation composition) and submits one guess. Unlike other direct-guess treatments, this single guess is evaluated against all 4 sender secret numbers from the bundle (<code>secret_number_1_Rt</code> to <code>secret_number_4_Rt</code>), and round performance is based on the average accuracy across those 4 realizations.</p>
+<p><strong>Important:</strong> the binary scoring rule is still used in <code>NoUncertainty</code>. The only change is how the receiver win probability is constructed: first compute accuracy against each of the 4 bundled secret numbers, then average those 4 accuracies into a single receiver probability, and finally apply the same binary draw used in other treatments.</p>
+</section>
+</section>
+<section id="page-sequence" class="level2">
+<h2 class="anchored" data-anchor-id="page-sequence"><strong>6️⃣ Page Sequence</strong></h2>
+<pre><code>PreviousExperimentInfo → instructions1 → instructions2 → TimeLimit → Decode (always hidden)
+→ instructions3 → instructions4
+→ role_info                  [includes BeliefTransition content for Belief treatment]
+→ ControlQuestions ×5       [round 1, repeats until all correct]
+→ TutorialIntro
+→ ReceiverTutorial          [ExpertRep only, round 1]
+→ FixBeliefTutorial         [FixBelief only, round 1]
+→ NoUncertaintyTutorial     [NoUncertainty only, round 1]
+→ BeliefTutorial            [Belief only, round 1]
+→ start_page
+→ Round_number → ReceiverGuess → Results    [every round]
+→ HonestyGuess → HonestyCertainty → FollowingGuess → ExplanationTask   [last round only]</code></pre>
+<p>Key per-treatment differences:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Page / Logic</th>
+<th>ExpertRep</th>
+<th>Belief</th>
+<th>FixBelief</th>
+<th>NoUncertainty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CSV source</td>
+<td><code>messages_for_receivers.csv</code></td>
+<td><code>messages_for_receivers_belief.csv</code></td>
+<td><code>messages_for_receivers_with_X.csv</code></td>
+<td><code>messages_for_receivers_with_X_secrets.csv</code></td>
+</tr>
+<tr class="even">
+<td>Tutorial page</td>
+<td><code>ReceiverTutorial</code></td>
+<td><code>BeliefTutorial</code></td>
+<td><code>FixBeliefTutorial</code></td>
+<td><code>NoUncertaintyTutorial</code></td>
+</tr>
+<tr class="odd">
+<td><code>ReceiverGuess</code> inputs</td>
+<td>direct guess</td>
+<td>belief slider + computed guess</td>
+<td>direct guess + X info</td>
+<td>direct guess + X info + 4-box bundle visual</td>
+</tr>
+<tr class="even">
+<td>Payoff evaluation</td>
+<td>vs one secret number</td>
+<td>vs one secret number (computer guess)</td>
+<td>vs one secret number</td>
+<td>vs 4 secret numbers (average score)</td>
+</tr>
+<tr class="odd">
+<td>Results feedback</td>
+<td>direct guess and true number</td>
+<td>belief + computed guess</td>
+<td>direct guess and true number + bundle context</td>
+<td>direct guess + full 4-secret bundle evaluation summary</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-pages" class="level2">
+<h2 class="anchored" data-anchor-id="key-pages"><strong>7️⃣ Key Pages</strong></h2>
+<section id="previousexperimentinfo.html" class="level3">
+<h3 class="anchored" data-anchor-id="previousexperimentinfo.html"><code>PreviousExperimentInfo.html</code></h3>
+<p>Uses arrow-reveal blocks (same pattern as <code>instructions1.html</code>). Three sections: 1. Always visible: context about the previous experiment (Player A/B roles, delegation). 2. Arrow 1 → “Your Task Today”: describes today’s task; for Belief, a treatment-conditional paragraph explains that they will report a belief % instead of a direct guess. 3. Arrow 2 → “About the Instructions Below”: why to read the historical instructions carefully. Reveals the Next button.</p>
+</section>
+<section id="belieftransition.html" class="level3">
+<h3 class="anchored" data-anchor-id="belieftransition.html"><code>BeliefTransition.html</code></h3>
+<p>Its content is integrated into <code>role_info.html</code>, shown conditionally for Belief participants. The legacy <code>BeliefTransition</code> file/class remains in the repository but is not included in <code>page_sequence</code>. The integrated block explains: - The previous experiment had Player B guess directly; today’s task is different. - They will report a belief about the likelihood that Player A delegated to the computer. - The computer submits the <strong>guess that maximises their bonus</strong> given that belief — so they should report their true belief. - The formula <span class="math inline">\(g^* = p \times m + (1-p) \times 4\)</span> is hidden behind a “Show the formula” modal button.</p>
+</section>
+<section id="belieftutorial.html" class="level3">
+<h3 class="anchored" data-anchor-id="belieftutorial.html"><code>BeliefTutorial.html</code></h3>
+<p>Interactive intro.js-guided tutorial for the belief slider (replaces <code>ReceiverTutorial</code> for Belief). Tour steps: 1. Introduction 2. Left-pane reminder 3. Round number 4. Player A’s message 5. Belief slider — <strong>blocked</strong> until participant moves it; unblocks Next on first interaction 6. Optimal guess card — shows the computed guess after the slider is moved 7. Submit button</p>
+</section>
+<section id="receiverguess.html-belief-decision-screen" class="level3">
+<h3 class="anchored" data-anchor-id="receiverguess.html-belief-decision-screen"><code>ReceiverGuess.html</code> (Belief decision screen)</h3>
+<p>In Belief treatment, the Spanish elicitation is framed as a <strong>probability/likelihood</strong> question (not “how often”): participants report the percentage probability that Player A delegated to the computer. The UI then displays the implied optimal guess and submits it on confirmation.</p>
+</section>
+<section id="controlquestions.html" class="level3">
+<h3 class="anchored" data-anchor-id="controlquestions.html"><code>ControlQuestions.html</code></h3>
+<p><code>Q_task</code> is now treatment-aware: - ExpertRep: correct answer = <em>“Adivinar el número secreto”</em>; options list = <code>O_task</code> - Belief: correct answer = <em>“Reportar mi creencia sobre cuántas veces el Jugador A delegó al computador”</em>; options list = <code>O_task_Belief</code> (no “Adivinar” option shown) - Hint (<code>H_task_Belief</code>) explains the belief mechanism on wrong answer.</p>
+<p>Additional treatment-specific checks: - FixBelief includes <code>Q_fixbelief_understanding</code>. - NoUncertainty includes <code>Q_nouncertainty_understanding</code>.</p>
+</section>
+<section id="receiverguess.html-nouncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="receiverguess.html-nouncertainty"><code>ReceiverGuess.html</code> (NoUncertainty)</h3>
+<p>The decision screen explicitly displays the message as coming from a 4-sender bundle and includes a 4-box visual (computer vs chose) to show delegation composition (<code>X</code> delegated, <code>4-X</code> did not delegate).</p>
+</section>
+<section id="results.html-nouncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="results.html-nouncertainty"><code>Results.html</code> (NoUncertainty)</h3>
+<p>Results page shows that the single submitted guess was evaluated against all 4 secret numbers in the bundle and reports the round’s average accuracy across those 4 comparisons.</p>
+</section>
+</section>
+<section id="survey" class="level2">
+<h2 class="anchored" data-anchor-id="survey"><strong>8️⃣ Survey</strong></h2>
+<p>The final survey (<code>survey</code> app) collects: <code>age</code>, <code>gender</code>, <code>education</code>, <code>student</code>, <code>experiments</code>, <code>reasoning</code>, <code>chosen_role</code>. The fundaciones opinion table was removed. All fields are in Spanish.</p>
+</section>
+<section id="obsolete-features-removed" class="level2">
+<h2 class="anchored" data-anchor-id="obsolete-features-removed"><strong>9️⃣ Obsolete Features (Removed)</strong></h2>
+<ul>
+<li><strong>Live Matching Protocol</strong>: Pool-based matching system removed; no live Player As.</li>
+<li><strong>Wait Pages</strong>: All synchronization wait pages removed.</li>
+<li><strong>Sender UI</strong>: Pages for Player A actions removed from the page sequence.</li>
+<li><strong>Babbling / Decode treatments</strong>: Removed from all logic and templates. Only <code>ExpertRep</code>, <code>Belief</code>, <code>FixBelief</code>, <code>NoUncertainty</code> are active.</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

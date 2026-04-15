@@ -1,0 +1,21 @@
+{{ block title }}
+ Tutorial
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body ">
+    <p>
+        Después de hacer clic en el botón "Continuar", verás un tutorial que te guiará a través de tu pantalla de decisiones.
+    </p>
+    </div>
+</div>
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+
+{{ endblock }}

@@ -1,0 +1,23 @@
+{{ block title }}
+    Resultados de la Tarea de Decodificación
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light border-dark mb-3">
+  <div class="card-body">
+      <h5>Resultados de la Tarea de Decodificación</h5>
+      <hr>
+      <p class="blocktext"> Completaste todas las {{ total_tasks }} tareas.</p>
+      <p class="blocktext"> Tu puntuación total es: <span class="payoff"><b>{{ total_score }}</b></span> de un total de <b>{{ total_tasks }}</b>.</p>
+  </div>
+</div>
+
+<button class="otree-btn-next btn btn-primary">Continuar</button>
+
+{{ endblock }}

@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-03-30T16:56:02.843998",
+  "input_file": "C:\\Users\\danie\\Dropbox\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\data_raw\\N5_sender_receiver_game_2026-03-30.csv",
+  "prompts_dir": "C:\\Users\\danie\\Dropbox\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts",
+  "env_file": "C:\\Users\\danie\\Dropbox\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\.env",
+  "round_for_explanations": 24,
+  "selected_rounds": [
+    1,
+    6,
+    15,
+    20,
+    21
+  ],
+  "seed": 381813988,
+  "sample_size": 5,
+  "model": "gpt-5.4-mini",
+  "temperature": 0,
+  "scoring_rule": "threshold_bonus_abs_diff_leq_1",
+  "bonus_rule": "bonus_probability_equals_share_of_matches_across_5_rounds",
+  "result_csv": "C:\\Users\\danie\\Dropbox\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\results\\explanation_results_N5_sender_receiver_game_2026-03-30_20260330_165602.csv",
+  "raw_llm_csv": "C:\\Users\\danie\\Dropbox\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\runs\\raw_llm_N5_sender_receiver_game_2026-03-30_20260330_165602.csv",
+  "participants_total": 16,
+  "participants_empty_explanation": 0,
+  "participants_ok": 16,
+  "participants_missing_round_data": 0,
+  "participants_llm_error": 0
+}

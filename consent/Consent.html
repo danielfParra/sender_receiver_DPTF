@@ -1,69 +1,94 @@
-{% extends "global/Page.html" %}
-{% load otree static %}
-
-{% block title %}
-    Consent Form and data protection information for online experiments
-{% endblock %}
+{{ block title }}
+Consentimiento y protección de datos
+{{ endblock }}
 
 {{ block styles }}
 <!-- Load the custom css styles -->
 <link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
 {{ endblock }}
 
-
-{% block content %}
+{{ block content }}
 <p>
-The Berlin Social Science Center (Wissenschaftszentrum Berlin für
-Sozialforschung, WZB), Reichpietschufer 50, 10785 Berlin is conducting a
-scientific online study today. You have been recruited for this study
-because you have registered in the Prolific recruitment system. The
-procedures will be explained to you before the start of the
-study.
+    Has sido invitado/a a participar en este estudio porque te has registrado voluntariamente para recibir invitaciones. La presente investigación
+    fue aprobada por el Comité de Investigación y Ética de la Facultad de
+    Ciencias Económicas y Administrativas de la Pontificia Universidad Javeriana.
 </p>
 <p>
-During the study you will face a number of different tasks and your
-responses will be recorded by our computer system. The data recorded in the
-study do not allow any inference about the participation or the decisions
-or responses of individual who participate in the study. Correspondingly,
-the analysis and presentation of all results of this study will be
-anonymized. The anonymous research data will be archived and will possibly be
-made available to other scientists for further use.
+    Antes de comenzar el estudio te explicaremos las diferentes tareas.
+    Durante el estudio te enfrentarás a una serie de tareas diferentes y tus
+    respuestas serán registradas por nuestro sistema informático. Los datos registrados
+    en el estudio no permiten hacer ninguna inferencia sobre tu participación, decisiones o respuestas.
+    En consecuencia, el análisis y la presentación de todos los resultados de este
+    estudio serán anónimos.
 </p>
 
 <p>
-The data generated in the study will not be linked to the data in the Prolific
-recruitment system. The data collected for the payment of compensation (e-mail
-address or bank details) will always be managed by Prolific. We will have only access to your identifier,
-which we cannot link to your Prolific profile data.
-Participation in today‘s experiment is of course entirely voluntary.
-There will be no disadvantages for you if you decide not to participate. You
-have the possibility to exit the study at any time.
+    Los datos anónimos de la investigación se archivarán y posiblemente se pondrán
+    a disposición de otros científicos para su uso posterior. Los datos generados en
+    el estudio no se vincularán a los datos del sistema de inscripción.
+    Los datos recogidos para el pago de compensaciones (dirección de correo electrónico
+    o datos bancarios) se almacenarán siempre separados de los datos experimentales.
 </p>
 
 <p>
-We want to ask for your consent to participate in the study and to the
-implied processing of data. You can revoke your consent at any time with an
-effect for the future, for example, by sending an e-mail to experimente@wzb.eu.
-Your consent is at the same time the legal basis for the processing of data.
+    Por supuesto, tu participación en el estudio de hoy es totalmente voluntaria.
+    No habrá desventajas para ti si decides no participar.
+    Puedes abandonar el estudio en cualquier momento.
 </p>
 
 <p>
-For any further information about the processing of your data and data
-protection, especially about your rights to disclosure, correction, deletion,
-limitations of processing of data, objection, data transmission and complaints
-to a supervisory body, please contact the data protection officer of WZB:
-<a href="mailto:dataprotection@wzb.eu?subject=WZB%20Prolific%20study%20data">
-        dataprotection@wzb.eu.
-      </a>
-
+    Queremos pedirte tu consentimiento para participar en el estudio y para el
+    tratamiento implícito de los datos. Puedes revocar tu consentimiento en cualquier
+    momento con efectos para el futuro, por ejemplo, enviando un correo electrónico a
+    danielfparra@javeriana.edu.co. Tu consentimiento es, al mismo tiempo, la base jurídica
+    para el tratamiento de los datos.
 </p>
 
 <p>
-You cannot participate in today's experiment without consenting.
+    Uso de datos: En cumplimiento de la Ley 1581 de 2012 y demás normas aplicables,
+    consulta la política de la Pontificia Universidad Javeriana dando
+    <a href="#" data-bs-toggle="modal" data-bs-target="#dataConsentModal">clic aquí</a>.
 </p>
 
-{% formfields %}
+<p>
+    No puedes participar en el estudio de hoy sin dar tu consentimiento.
+</p>
 
-    {% next_button %}
+{{ formfields }}
 
-{% endblock %}
+<button class="otree-btn-next btn btn-primary">Continuar</button>
+
+<!-- Modal de Bootstrap -->
+<div class="modal fade" id="dataConsentModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Autorización de Tratamiento de Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                La autorización de tratamiento de datos personales que le otorgas a la Pontificia Universidad Javeriana
+                se hace de manera voluntaria, previa, expresa e informada para que recolecte, almacene, use, disponga o
+                eventualmente llegue a transmitir o transferir a nivel nacional o internacional información referida a
+                tus datos personales y de imagen y voz, para efectos de ser utilizados en las siguientes finalidades:
+                <br><br>
+                i) Participar en las actividades y eventos académicos de la Universidad a través de diferentes plataformas virtuales, las cuales eventualmente podrán ser grabadas y compartidas con terceros aliados. <br>
+                ii) Para que tu imagen y tu voz formen parte de fotografías y videos que podrán ser publicadas en los medios de comunicación y redes sociales institucionales, además de publicaciones impresas o digitales. <br>
+                iii) Tratar tus datos personales y tu imagen en video o fotografía en espacios académicos. <br>
+                iv) Mantener un canal de comunicación con la Universidad para que recibas información sobre actividades y programas académicos. <br><br>
+
+                El canal de comunicación para ejercer tus derechos es el correo electrónico:
+                <a href="mailto:usodedatos@javeriana.edu.co">usodedatos@javeriana.edu.co</a>.
+                La Universidad cuenta con una Política de Protección de Datos Personales, publicada en
+                <a href="https://www.javeriana.edu.co" target="_blank">www.javeriana.edu.co</a>.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ endblock }}

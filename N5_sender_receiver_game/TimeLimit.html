@@ -1,0 +1,85 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+        <h3>
+            Límites de Tiempo
+        </h3>
+
+    <p>
+        En cada ronda, el Jugador A tendrá <b>{{Constants.TIME_PER_ROUND_PREV }} segundos</b> para elegir un mensaje.
+        Luego, el Jugador B tendrá <b>{{Constants.TIME_PER_ROUND_PREV }} segundos</b> para hacer una adivinanza.
+        Después de que el Jugador B haga una adivinanza, 
+        ambos jugadores verán la retroalimentación durante 5 segundos antes de que comience la siguiente ronda.
+    </p>
+
+    <p>
+        Por favor, completa tus acciones dentro de los <b>{{Constants.TIME_PER_ROUND_PREV }} segundos</b>.
+        No hacerlo afectará tus ganancias de bonificación.
+    </p>
+
+
+    <p>
+        <input id="info_buttonA" type="button" value="&#xf178" onclick="button_click(info_buttonA, PlayerA);" />
+    </p>
+
+    <div class="hidden-paragraph" id="PlayerA">
+    <p>
+        Esto es lo que sucede si <strong>el Jugador A</strong> no envía un mensaje a tiempo:
+        <ul>
+            <li>El Jugador A <strong>no recibirá bonificación</strong> por esa ronda.</li>
+            <li>El Jugador B no recibirá ningún mensaje pero aún puede hacer una adivinanza.</li>
+            <li>El pago del Jugador B aún dependerá de su adivinanza.</li>
+        </ul>
+    </p>
+
+    <p>
+        <input id="info_buttonB" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_buttonB, PlayerB);" />
+    </p>
+
+    </div>
+
+    <div class="hidden-paragraph" id="PlayerB">
+    <p>
+        Esto es lo que sucede si <strong>el Jugador B</strong> no hace una adivinanza a tiempo:
+        <ul>
+            <li>La adivinanza del Jugador B se convertirá automáticamente en el número recomendado por el mensaje del Jugador A. Por ejemplo,
+                si el Jugador A envía el mensaje "Para recibir el pago más alto, deberías elegir 5", la adivinanza del Jugador B se convierte en 5 si no responde a tiempo.</li>
+            <li>Los pagos de ambos jugadores dependerán de esta adivinanza establecida automáticamente.</li>
+        </ul>
+    </p>
+    <p>
+        Si ambos jugadores no cumplen con el límite de tiempo, ambos jugadores no recibirán bonificación por la ronda.
+    </p>
+    
+    </div>
+    </div>
+</div>
+<div id="next" style="display: none">
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

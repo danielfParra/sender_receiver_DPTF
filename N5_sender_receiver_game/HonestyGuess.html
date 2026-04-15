@@ -1,0 +1,209 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+<style>
+
+.content-box .content {
+    overflow: hidden;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid;
+    border-color: #ffc107;
+    color: #533f00;
+}
+.content-box .title {
+    min-height: 40px;
+    line-height: 1.2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #ffc107;
+    display: flex;
+    align-items: center;
+    color: #533f00;
+    padding: 10px;
+    border: 2px solid;
+    border-color: #ffc107;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+</style>
+
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3><i class="fa fa-question-circle" aria-hidden="true"></i> ¿Cuántos delegaron al computador?</h3>
+
+    <p>
+        Has llegado al final del juego. Recuerda que cada Jugador A podía <b>delegar al computador</b>, 
+        en cuyo caso el mensaje contenía el número secreto verdadero.
+    </p>
+
+    <p>
+        Considera un mensaje elegido al azar de la sesión anterior.
+        <i>¿Cuál es la probabilidad de que haya sido delegado al computador?</i>
+    </p>
+
+    <p>
+        Piensa <strong>cuidadosamente</strong>. Puedes ganar un <b>bono extra</b> de <strong>{{ Constants.HONESTY_GUESS_BONUS }}</strong>: cuanto más cercana sea tu creencia a la verdadera probabilidad de delegación, mayor será la probabilidad de recibir el bono. <button type="button" name="more_info2" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#moreinfo2">
+            Detalles del cálculo del bono extra
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="moreinfo2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title m-0" id="exampleModalLabel2">Cálculo del bono extra</h5>
+                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+         <p>
+             Se elige al azar un mensaje de la sesión anterior. Tu bono se determina según la siguiente fórmula:
+        </p>
+        
+        <div class="card bg-light my-3">
+          <div class="card-body">
+            <p class="text-center" style="font-size: 0.8rem;">
+              <b>Probabilidad de recibir {{ Constants.HONESTY_GUESS_BONUS }} pesos (en porcentaje)=</b>
+            </p>
+            <div class="text-center" style="font-size: 1rem;">
+              <math>
+                <mn>100</mn>
+                <mo>-</mo>
+                <mfrac>
+                  <mn>1</mn>
+                  <mn>100</mn>
+                </mfrac>
+                <mo>&times;</mo>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>100</mn>
+                    <mo>-</mo>
+                    <mi>Tu creencia</mi>
+                    <mo>)</mo>
+                  </mrow>
+                  <mn>2</mn>
+                </msup>
+              </math>
+              <br>
+              <span style="font-size: 0.9rem;">si el mensaje fue delegado</span>
+              <br><br>
+              <math>
+                <mn>100</mn>
+                <mo>-</mo>
+                <mfrac>
+                  <mn>1</mn>
+                  <mn>100</mn>
+                </mfrac>
+                <mo>&times;</mo>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>0</mn>
+                    <mo>-</mo>
+                    <mi>Tu creencia</mi>
+                    <mo>)</mo>
+                  </mrow>
+                  <mn>2</mn>
+                </msup>
+              </math>
+              <br>
+              <span style="font-size: 0.9rem;">si el mensaje no fue delegado</span>
+            </div>
+          </div>
+        </div>
+        
+        <p>
+            Si el mensaje fue delegado y reportas 100, ganas el bono con seguridad. Valores más bajos disminuyen tus posibilidades.
+        </p>
+        <p>
+            Si el mensaje no fue delegado y reportas 0, ganas el bono con seguridad. Valores más altos disminuyen tus posibilidades.
+        </p>
+        <p>
+            Ganas más en promedio reportando tu creencia honesta. Si crees que hay un X% de probabilidad de que el mensaje haya sido delegado, ingresar "X%" maximiza tus ganancias esperadas.
+        </p>
+        
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </p>
+
+    <br>
+
+    <div class="content-box" id="question">
+        <div class="title">
+            ¿Cuál es la probabilidad de que un mensaje elegido al azar de la sesión anterior haya sido delegado al computador?
+        </div>
+        <div class="content">
+
+            <p>
+                Usa el control deslizante (0% a 100%). Haz clic y arrastra a la posición deseada.
+            </p>
+
+            <input id="slider" value="0" type="range" name="honesty_guess" oninput="updateDescription(this)" step="1" class="form-range" min="0" max="100">
+            <h5 id="description"></h5>
+        </div>
+    </div>
+
+    </div>
+</div>
+<div id="submit_button" class="hidden-paragraph">
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+<script>
+
+  let description = document.getElementById('description');
+  function updateDescription(input) {
+      document.getElementById("slider").setAttribute("max", js_vars.max_guess);
+      document.getElementById("slider").setAttribute("min", js_vars.min_guess);
+      let receiver_guess = parseFloat(input.value).toFixed(0);
+      description.innerText = `Tu creencia reportada: ${receiver_guess}%`;
+
+      if (parseFloat(input.value) >= 0 && parseFloat(input.value) <= 100) {
+          show_text(submit_button);
+      } else {
+          hide_text(submit_button);
+      }
+  }
+
+  function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    }
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    }
+
+</script>
+
+{% endblock %}

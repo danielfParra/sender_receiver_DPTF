@@ -1,0 +1,169 @@
+{{ block title }}
+ Tu Rol y tarea
+{{ endblock }}
+
+{{ block styles }}
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+        <h4><i class="fas fa-user"></i> Tu rol: Jugador B</h4>
+        <p>Mantendrás este rol durante las <b>{{ Constants.num_rounds }}</b> rondas del juego.</p>
+
+        <hr>
+
+        <h4><i class="fas fa-tasks"></i> Tu tarea</h4>
+        <ul>
+            <li>Cada ronda recibirás un <b>mensaje real</b> enviado por Jugadores A de un experimento anterior.</li>
+            <li>Tendrás <b>{{ Constants.TIME_PER_ROUND }} segundos</b> para tomar tu decisión.</li>
+            <li>Tu tarea es <b>adivinar el número secreto</b> (un número entre 1 y 7, incluyendo decimales).</li>
+        </ul>
+
+        <!-- ═══ Belief: report honesty belief, computer calculates optimal guess ═══ -->
+        {{ if player.participant.treatment == "Belief" }}
+        <div class="card border-warning my-3">
+            <div class="card-body">
+                <h5><i class="fas fa-cogs"></i> ¿Cómo funciona?</h5>
+                <p class="mb-2">
+                    El computador usará tu creencia para calcular y enviar automáticamente
+                    la <b>adivinanza que maximice tus posibilidades de ganar el bono</b>.
+                </p>
+                <p class="mb-2">
+                    Tu <strong>mejor estrategia es reportar tu creencia verdadera</strong>: cuanto más precisa sea, mayores 
+                    serán tus ganancias esperadas.
+                </p>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#formulaModal">
+                    <i class="fas fa-square-root-alt"></i> Mostrar la fórmula
+                </button>
+            </div>
+        </div>
+
+        <!-- Formula Modal -->
+        <div class="modal fade" id="formulaModal" tabindex="-1" aria-labelledby="formulaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formulaModalLabel">Cómo calcula el computador la adivinanza óptima</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Sea <em>p</em> tu creencia declarada (como fracción entre 0 y 1) sobre la probabilidad de que
+                            el Jugador A haya delegado al computador, y sea <em>m</em> el mensaje que observas. El computador envía:
+                        </p>
+                        <div class="card bg-light my-3">
+                            <div class="card-body text-center" style="font-size: 1.15rem;">
+                                <b>Adivinanza óptima = p × m + (1 − p) × 4</b>
+                            </div>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.9rem;">
+                            Cuando el Jugador A delegó (probabilidad p), el mensaje <em>m</em> es el número secreto, así que la mejor adivinanza es <em>m</em>.
+                            Cuando no delegó (probabilidad 1 − <em>p</em>), el mensaje no tiene información y la mejor adivinanza es 4 (el promedio).
+                            La adivinanza óptima es un promedio ponderado de estos dos casos.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ endif }}
+
+        <!-- ═══ FixBelief: told X/4 honest, guess evaluated against ONE random sender ═══ -->
+        {{ if player.participant.treatment == "FixBelief" }}
+        <div class="card border-info mb-3">
+            <div class="card-header bg-info text-dark" style="font-size: 0.9em; font-weight: 600;">Información adicional en tu tarea</div>
+            <div class="card-body">
+                <p>
+                    En cada ronda, el mensaje que verás fue enviado por <b>4 Jugadores A</b> distintos.
+                    Se te informará cuántos de ellos <b>delegaron al computador</b>.
+                </p>
+                <p>
+                    <em>Ejemplo: "De los 4 Jugadores A que enviaron este mensaje, <strong>1 delegó</strong> y 3 eligieron libremente."</em>
+                </p>
+                <p>
+                    Tu adivinanza se comparará con el número secreto de <b>1 de esos 4 Jugadores A</b>, elegido al azar.
+                </p>
+            </div>
+        </div>
+        {{ endif }}
+
+        <!-- ═══ NoUncertainty: told X/4 honest, guess evaluated against ALL 4 senders ═══ -->
+        {{ if player.participant.treatment == "NoUncertainty" }}
+        <div class="card border-info mb-3">
+            <div class="card-header bg-info text-dark" style="font-size: 0.9em; font-weight: 600;">Información adicional en tu tarea</div>
+            <div class="card-body">
+                <p>
+                    En cada ronda, el mensaje que verás fue enviado por <b>4 Jugadores A</b> distintos.
+                    Se te informará cuántos de ellos <b>delegaron al computador</b>.
+                </p>
+                <p>
+                    Tu adivinanza se comparará con todos los números secretos de <b>los 4 Jugadores A</b>,
+                    y tu pago se calculará como el <b>promedio</b> de esas 4 comparaciones.
+                </p>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#formulaModalNU">
+                        <i class="fas fa-square-root-alt"></i> Mostrar cómo se calculan las ganancias
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formula Modal NoUncertainty -->
+        <div class="modal fade" id="formulaModalNU" tabindex="-1" aria-labelledby="formulaModalLabelNU" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formulaModalLabelNU">Cómo se calculan tus ganancias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Supongamos que envías una adivinanza <em>g</em>.
+                            El computador comparará <em>g</em> con el número secreto de cada uno de los 4 Jugadores A.
+                            Sean <em>S₁, S₂, S₃, S₄</em> esos números secretos.
+                        </p>
+                        <div class="card bg-light my-3">
+                            <div class="card-body text-center" style="font-size: 1.15rem;">
+                                <b>Tus Ganancias = Promedio de los bonos por cada Jugador A</b><br><br>
+                                <span style="font-size: 0.95rem;">
+                                    Bono₁ (distancia entre <em>g</em> y <em>S₁</em>) <br>
+                                    + Bono₂ (distancia entre <em>g</em> y <em>S₂</em>) <br>
+                                    + Bono₃ (distancia entre <em>g</em> y <em>S₃</em>) <br>
+                                    + Bono₄ (distancia entre <em>g</em> y <em>S₄</em>) <br>
+                                    ──────────────────────────── <br>
+                                    Dividido entre 4
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ endif }}
+
+        <hr>
+        <p>
+            <i>A continuación verificaremos tu comprensión con algunas preguntas.</i>
+        </p>
+
+        <div class="mt-3">
+            <button class="otree-btn-next btn btn-primary">Continuar</button>
+        </div>
+
+    </div>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+{{ endblock }}

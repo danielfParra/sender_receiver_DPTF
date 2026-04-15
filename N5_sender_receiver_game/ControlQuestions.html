@@ -1,0 +1,309 @@
+{{ block title }}
+ Preguntas de Comprensión
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+<style>
+
+.content-box .content {
+    overflow: hidden;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid;
+    border-color: #ffc107;
+    color: #533f00;
+}
+.content-box .title {
+    height:40px;
+    line-height:20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #ffc107;
+    display:block;
+    color: #533f00;
+    display:block;
+    padding:10px;
+    border: 2px solid;
+    border-color: #ffc107;
+    border-bottom:none;
+}
+
+</style>
+
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body ">
+    <p>
+        Por favor, responde las siguientes preguntas para asegurarte de que entiendes las instrucciones.
+    </p>
+    
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_task.label }}
+        </div>
+        <div class="content">
+            {{ form.Q_task }}
+
+            {{ if player.participant.treatment == 'Belief' }}
+                {{ if player.Q_task != Constants.A_task_PB_Belief and player.Q_task != 'na' }}
+                <span style="color: rgba(195,69,22, 1);">
+                <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_task_Belief }}</i>
+                </span>
+                {{ endif }}
+                {{ if player.Q_task == Constants.A_task_PB_Belief and player.Q_task != 'na' }}
+                <span style="color: rgba(76,111,66, 1);">
+                    <span>✅ </span> Tu respuesta fue correcta.
+                </span>
+                {{ endif }}
+            {{ else }}
+                {{ if player.Q_task != Constants.A_task_PB and player.Q_task != 'na' }}
+                <span style="color: rgba(195,69,22, 1);">
+                <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_task }}</i>
+                </span>
+                {{ endif }}
+                {{ if player.Q_task == Constants.A_task_PB and player.Q_task != 'na' }}
+                <span style="color: rgba(76,111,66, 1);">
+                    <span>✅ </span> Tu respuesta fue correcta.
+                </span>
+                {{ endif }}
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ if player.participant.role == 'Player A' }}
+            {{ Constants.Q_payoff_PA }}
+            {{ else }}
+            {{ Constants.Q_payoff_PB }}
+            {{ endif }}
+        </div>
+        <div class="content">
+            {{ form.Q_payoff }}
+    
+            {{ if player.participant.role == 'Player A' and player.Q_payoff != Constants.A_payoff_PA and player.Q_payoff != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_payoff_PA }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.participant.role == 'Player A' and player.Q_payoff == Constants.A_payoff_PA and player.Q_payoff != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+
+            {{ if player.participant.role == 'Player B' and player.Q_payoff != Constants.A_payoff_PB and player.Q_payoff != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_payoff_PB }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.participant.role == 'Player B' and player.Q_payoff == Constants.A_payoff_PB and player.Q_payoff != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ if player.participant.role == 'Player A' }}
+            {{ Constants.Q_payoff_other_PA }}
+            {{ else }}
+            {{ Constants.Q_payoff_other_PB }}
+            {{ endif }}
+        </div>
+        <div class="content">
+            {{ form.Q_payoff_other }}
+    
+            {{ if player.participant.role == 'Player A' and player.Q_payoff_other != Constants.A_payoff_other_PA and player.Q_payoff_other != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_payoff_other_PA }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.participant.role == 'Player A' and player.Q_payoff_other == Constants.A_payoff_other_PA and player.Q_payoff_other != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+
+            {{ if player.participant.role == 'Player B' and player.Q_payoff_other != Constants.A_payoff_other_PB and player.Q_payoff_other != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_payoff_other_PB }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.participant.role == 'Player B' and player.Q_payoff_other == Constants.A_payoff_other_PB and player.Q_payoff_other != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_independence.label }}
+        </div>
+        <div class="content">
+
+            {{ Constants.Q_independence_text }}
+
+            {{ form.Q_independence }}
+    
+            {{ if player.Q_independence != Constants.A_independence and player.Q_independence != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_independence }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.Q_independence == Constants.A_independence and player.Q_independence != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_secret_number_generation.label }}
+        </div>
+        <div class="content">
+            {{ form.Q_secret_number_generation }}
+    
+            {{ if player.Q_secret_number_generation != Constants.A_secret_number_generation and player.Q_secret_number_generation != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_secret_number_generation }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.Q_secret_number_generation == Constants.A_secret_number_generation and player.Q_secret_number_generation != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_no_knowledge_guess.label }}
+        </div>
+        <div class="content">
+
+            {{ Constants.Q_no_knowledge_guess_text }}
+
+            {{ form.Q_no_knowledge_guess }}
+    
+            {{ if player.Q_no_knowledge_guess != Constants.A_no_knowledge_guess and player.Q_no_knowledge_guess != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_no_knowledge_guess }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.Q_no_knowledge_guess == Constants.A_no_knowledge_guess and player.Q_no_knowledge_guess != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_message_origin.label }}
+        </div>
+        <div class="content">
+            {{ form.Q_message_origin }}
+    
+            {{ if player.Q_message_origin != Constants.A_message_origin and player.Q_message_origin != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_message_origin }}</i>
+            </span>
+            {{ endif }}
+    
+            {{ if player.Q_message_origin == Constants.A_message_origin and player.Q_message_origin != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+    
+        </div>
+    </div>
+
+    {{ if player.participant.treatment == 'FixBelief' }}
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_fixbelief_understanding.label }}
+        </div>
+        <div class="content">
+            {{ form.Q_fixbelief_understanding }}
+
+            {{ if player.Q_fixbelief_understanding != Constants.A_fixbelief_understanding and player.Q_fixbelief_understanding != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_fixbelief_understanding }}</i>
+            </span>
+            {{ endif }}
+
+            {{ if player.Q_fixbelief_understanding == Constants.A_fixbelief_understanding and player.Q_fixbelief_understanding != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+        </div>
+    </div>
+    {{ endif }}
+
+    {{ if player.participant.treatment == 'NoUncertainty' }}
+    <br>
+    <div class="content-box">
+        <div class="title">
+            {{ form.Q_nouncertainty_understanding.label }}
+        </div>
+        <div class="content">
+            {{ form.Q_nouncertainty_understanding }}
+
+            {{ if player.Q_nouncertainty_understanding != Constants.A_nouncertainty_understanding and player.Q_nouncertainty_understanding != 'na' }}
+            <span style="color: rgba(195,69,22, 1);">
+            <span>⚠&#xFE0F;</span> ¡Inténtalo de nuevo! <strong>Pista:</strong> <i>{{ Constants.H_nouncertainty_understanding }}</i>
+            </span>
+            {{ endif }}
+
+            {{ if player.Q_nouncertainty_understanding == Constants.A_nouncertainty_understanding and player.Q_nouncertainty_understanding != 'na' }}
+            <span style="color: rgba(76,111,66, 1);">
+            <span>✅ </span> Tu respuesta fue correcta.
+            </span>
+            {{ endif }}
+        </div>
+    </div>
+    {{ endif }}
+
+
+
+
+    </div>
+
+</div>
+
+
+    <button class="otree-btn-next btn btn-primary">Continuar</button>
+
+{{ endblock }}

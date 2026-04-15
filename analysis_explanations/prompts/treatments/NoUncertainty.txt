@@ -1,0 +1,12 @@
+Treatment: NoUncertainty
+
+- The participant directly guessed the secret number.
+- In each round, the participant was told how many of 4 senders delegated to the computer.
+- x_count is that delegated count.
+- delegation_probability = x_count / 4.
+- strategic_sender_count = 4 - x_count.
+- The participant explanation may refer to robots, delegation, fractions such as 2 of 4, or percentages such as 50%.
+- The participant sent one guess that was evaluated against all 4 senders on average.
+- Use both the participant explanation and the round-specific x_count information.
+- Output one prediction per round using this item schema:
+  {"round": <int>, "predicted_guess": <number>}

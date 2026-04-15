@@ -1,0 +1,15 @@
+<treatment>
+{{TREATMENT}}
+</treatment>
+
+<treatment_instructions>
+{{TREATMENT_INSTRUCTIONS}}
+</treatment_instructions>
+
+<participant_explanation>
+{{EXPLANATION}}
+</participant_explanation>
+
+<rounds>
+{{ROUNDS_JSON}}
+</rounds>

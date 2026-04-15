@@ -11,3 +11,7 @@ __pycache__/
 *.py[cod]
 .DS_Store
 *.otreezip
+# Local secrets
+.env
+*.env
+analysis_explanations/.env

@@ -3,13 +3,63 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='sender_receiver_game',
-        display_name="Sender-Receiver Game",
-        num_demo_participants=2,
-        app_sequence=['consent','welcome','sender_receiver_game', 'payment_info', 'survey'],
+        name='sender_receiver_game_expertrep',
+        display_name="Sender-Receiver Game: ExpertRep",
+        num_demo_participants=4,
+        app_sequence=['consent','welcome', 'decoding_task', 'N5_sender_receiver_game', 'payment_info', 'survey'],
         num_rounds=3,
+        treatment='ExpertRep'
+    ),
+    dict(
+        name='BOTs_sender_receiver_game',
+        display_name="BOTS Sender-Receiver Game",
+        use_browser_bots=True,
+        num_demo_participants=16,
+        app_sequence=['consent', 'welcome', 'N5_sender_receiver_game', 'payment_info', 'survey'],
+        num_rounds=3,
+        treatment='NoUncertainty'
+    ),
+    dict(
+        name='sender_receiver_game_belief',
+        display_name="Sender-Receiver Game: Belief",
+        num_demo_participants=4,
+        app_sequence=['consent','welcome', 'decoding_task', 'N5_sender_receiver_game', 'payment_info', 'survey'],
+        num_rounds=3,
+        treatment='Belief'
+    ),
+    dict(
+        name='sender_receiver_game_fixbelief',
+        display_name="Sender-Receiver Game: FixBelief",
+        num_demo_participants=4,
+        app_sequence=['consent','welcome', 'decoding_task', 'N5_sender_receiver_game', 'payment_info', 'survey'],
+        num_rounds=3,
+        treatment='FixBelief'
+    ),
+    dict(
+        name='sender_receiver_game_nouncertainty',
+        display_name="Sender-Receiver Game: NoUncertainty",
+        num_demo_participants=4,
+        app_sequence=['consent','welcome', 'decoding_task', 'N5_sender_receiver_game', 'payment_info', 'survey'],
+        num_rounds=3,
+        treatment='NoUncertainty'
+    ),
+    dict(
+        name='survey',
+        display_name="survey",
+        num_demo_participants=20,
+        app_sequence=['survey'],
+        num_rounds=1,
     ),
 ]
+
+
+ROOMS = [
+    dict(
+        name='N5_room',
+        display_name='Room for sender-receiver sessions',
+    ),
+]
+
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
@@ -17,15 +67,15 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=1.00, participation_fee=5000, doc=""
 )
 
-PARTICIPANT_FIELDS = ['role', 'sender_payoff_rounds', 'receiver_payoff_rounds']
-SESSION_FIELDS = []
+PARTICIPANT_FIELDS = ['role', 'sender_payoff_rounds', 'receiver_payoff_rounds', 'treatment', 'correct_answers', 'assigned_sender_code']
+SESSION_FIELDS = ['treatment']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'es'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'

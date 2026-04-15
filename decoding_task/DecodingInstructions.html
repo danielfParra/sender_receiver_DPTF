@@ -1,0 +1,85 @@
+{{ block title }}
+La tarea de decodificación
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+        <h3><i class="fas fa-info-circle"></i> Instrucciones</h3>
+
+        <p>
+            En esta tarea, <b>decodificarás mensajes secretos</b> averiguando el número correcto que representan.
+            Completarás un total de <b>{{ total_tasks }} intentos</b>.
+            Cada intento tiene un límite de tiempo de <b>{{ time_per_task }} segundos</b>.
+        </p>
+
+        <p>
+            <input id="info_button1" type="button" value="&#xf178" onclick="button_click(info_button1, paragraph1);" />
+        </p>
+
+        <div id="paragraph1" class="hidden-paragraph">
+
+            <h3><i class="fas fa-gamepad"></i> Cómo Jugar</h3>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-envelope-open-text"></i> Verás un <b>mensaje codificado</b> en la pantalla.</li>
+                <li><i class="fas fa-brain"></i> Tu tarea es <b>descifrar el número</b> detrás del mensaje.</li>
+                <li><i class="fas fa-mouse"></i> Selecciona tu respuesta del menú desplegable y haz clic en <b>Enviar</b>.</li>
+            </ul>
+
+            <p>
+                <i class="fas fa-check-circle" style="color: green;"></i> Si tu respuesta es <b>correcta</b>, ¡pasas al siguiente intento! 🎉<br>
+                <i class="fas fa-times-circle" style="color: red;"></i> Si tu respuesta es <b>incorrecta</b>, debes esperar <b>5 segundos</b> antes de intentarlo de nuevo.
+            </p>
+
+            <p>
+                <input id="info_button2" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button2, paragraph2);" />
+            </p>
+        </div>
+
+        <div id="paragraph2" class="hidden-paragraph">
+            <h3><i class="fas fa-coins"></i> Tu Pago</h3>
+            <ul class="list-unstyled">
+                <li>Ganarás <strong>{{ Constants.PIECE_RATE_DECODE }}</strong> por cada mensaje resuelto correctamente.</li>
+            </ul>
+
+            <p class="text-danger font-weight-bold">
+                <i class="fas fa-hourglass-end"></i> <b>Importante:</b> Si no proporcionas una respuesta correcta dentro de <b>{{ time_per_task }} segundos</b>,
+                no recibirás ningún pago por ese intento.
+
+            </p>
+
+        </div>
+
+        <div id="paragraph3" class="hidden-paragraph">
+            <h3><i class="fas fa-lightbulb"></i> Información Adicional</h3>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-bullseye"></i> Mantente enfocado y piensa cuidadosamente.</li>
+                <li><i class="fas fa-dice"></i> ¡Incluso si no estás seguro, haz tu mejor intento!</li>
+                <li><i class="fas fa-tachometer-alt"></i> No te apresures—la precisión es más importante que la velocidad.</li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="next" style="display: none">
+<button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+<!-- Cargar las funciones JavaScript personalizadas -->
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossorigin="anonymous"></script>
+{{ endblock }}

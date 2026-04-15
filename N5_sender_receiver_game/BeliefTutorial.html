@@ -1,0 +1,182 @@
+{% extends "global/Base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+<style>
+.introjs-skipbutton { visibility: hidden !important; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.0.0/introjs.min.css" />
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; margin: 0;">
+
+    <!-- Left Pane -->
+    <div class="left-pane" style="width: 50%; background-color: #f8f9fa; padding: 20px; box-sizing: border-box; overflow-y: auto; border-right: 1px solid #ddd;">
+        {{ include Constants.ReceiverReminder }}
+    </div>
+
+    <!-- Right Pane -->
+    <div class="right-pane" style="width: 50%; background-color: #fff; padding: 20px; box-sizing: border-box; overflow-y: auto;">
+
+        <h3 data-intro="Número de ronda" data-step="3">Ronda X: Reporta tu creencia</h3>
+
+        <p>Eres el Jugador B. En lugar de adivinar directamente, <b>reportarás tu creencia</b> sobre la probabilidad de que el Jugador A haya delegado al computador (en cuyo caso, el número enviado es igual al número verdadero).</p>
+
+        <!-- Message box -->
+        <div class="d-flex justify-content-center" data-intro="Mensaje del Jugador A." data-step="4" id="message-box">
+            <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Mensaje del Jugador A:</h5>
+                    <p class="card-text">Para recibir el pago más alto, deberías elegir <b><span id="encoded_message"></span></b>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Belief slider section -->
+        <div id="belief_section" data-intro="Mueve el deslizador para indicar tu creencia." data-step="5">
+
+            <p>
+                ¿Qué tan probable crees que es que el Jugador A <strong>haya delegado al computador</strong>
+                (y enviado el verdadero número secreto)?
+            </p>
+
+            <div style="max-width: 420px; margin: 0 auto;">
+                <input id="belief_slider" value="0" type="range"
+                       oninput="updateBelief(this)" step="1"
+                       class="form-range" min="0" max="100"
+                       style="width: 100%; margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; padding: 0 3px; font-size: 0.85rem; color: #555;">
+                    <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+                </div>
+                <div class="text-center mt-2">
+                    <span id="belief_description" style="background:#0d6efd; color:#fff; padding: 5px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500;"></span>
+                </div>
+
+                <!-- Optimal guess card -->
+                 <div class="card bg-light mt-3" id="optimal_card" style="display:none;"
+                     data-intro="Esta es la adivinanza que el computador enviará por ti según tu creencia." data-step="6">
+                    <div class="card-body text-center">
+                        <p class="mb-1"><small>Según tu creencia, la adivinanza óptima es:</small></p>
+                        <span id="optimal_guess_display" style="background:#198754; color:#fff; padding: 5px 20px; border-radius: 20px; font-size: 1.1rem; font-weight: 600;"></span>
+                        <p class="mt-2 mb-0"><small>El computador enviará esta adivinanza por ti.</small></p>
+                    </div>
+                </div>
+
+                <!-- Hidden form field -->
+                <input type="hidden" name="belief_honest_pct" id="belief_honest_pct_input" value="0">
+            </div>
+        </div>
+
+        <!-- Submit button (hidden until slider is moved) -->
+        <div id="submit_button" class="hidden-paragraph mt-4" data-intro="Botón de envío" data-step="7">
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="submit" class="btn btn-success btn-lg btn-block">Enviar</button>
+            </div>
+        </div>
+
+        {{ formfield_errors 'belief_honest_pct' }}
+
+    </div>
+</div>
+
+<!-- Intro.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.0.0/intro.min.js"></script>
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+<script>
+    var intro = introJs();
+    intro.setOptions({
+        steps: [
+            {
+                title: 'Tutorial',
+                intro: "Esta es tu pantalla de decisión. Se verá igual en cada ronda. Presiona 'Siguiente' para un resumen rápido."
+            },
+            {
+                title: 'Recordatorio del juego',
+                element: '.left-pane',
+                intro: 'Este panel te recuerda las reglas del juego durante todo el experimento.'
+            },
+            {
+                title: 'Número de ronda',
+                element: 'h3',
+                intro: "Aquí puedes ver en qué ronda estás. Durante el experimento, la 'X' será un número entre 1 y {{ Constants.num_rounds }}."
+            },
+            {
+                title: 'Mensaje del Jugador A',
+                element: '#message-box',
+                intro: "Aquí puedes ver el mensaje que envió el Jugador A."
+            },
+            {
+                title: 'Deslizador de creencia',
+                element: '#belief_section',
+                intro: 'Mueve el deslizador para indicar qué tan probable crees que es que el Jugador A haya delegado al computador. El computador calculará y enviará la adivinanza óptima por ti. Inténtalo ahora.'
+            },
+            {
+                title: 'Tu adivinanza óptima',
+                element: '#optimal_card',
+                intro: 'Según tu creencia, esta es la adivinanza que el computador enviará por ti. Se calcula para maximizar tus ganancias esperadas. Cada vez que cambies el deslizador, este número se actualiza automáticamente.'
+            },
+            {
+                title: 'Límite de tiempo',
+                element: 'h3',
+                intro: 'En el experimento real, tendrás un límite de tiempo para tomar tu decisión. Verás tu tiempo restante en una cuenta regresiva en la parte superior de la página. <br> Para este tutorial, no hay límite de tiempo.'
+            },
+            {
+                title: 'Botón de envío',
+                element: '.btn-success',
+                intro: "Haz clic aquí para enviar tu creencia y continuar. Puedes enviar ahora o cerrar el tutorial primero. ¡Presiona 'Enviar' cuando estés listo/a!"
+            }
+        ],
+        showStepNumbers: true,
+        nextLabel: 'Siguiente',
+        prevLabel: 'Atrás',
+        doneLabel: 'Cerrar',
+        exitOnOverlayClick: false,
+        exitOnEsc: false,
+        keyboardNavigation: false,
+    });
+
+    // Block advancing past "belief slider" step until slider has been moved
+    intro.onafterchange(function(targetElement) {
+        if (intro._currentStep == 4) {
+            var original_onclick = $('.introjs-nextbutton').get(0).onclick;
+            $('.introjs-nextbutton').addClass('introjs-disabled');
+            $('.introjs-nextbutton').get(0).onclick = null;
+        }
+    });
+
+    window.onload = function () {
+        document.getElementById('encoded_message').innerHTML = js_vars.encoded_message;
+        intro.start();
+    };
+
+    let sliderMoved = false;
+
+    function updateBelief(input) {
+        const p = parseInt(input.value);
+        document.getElementById('belief_honest_pct_input').value = p;
+        document.getElementById('belief_description').innerText = p + '% de probabilidad de que el Jugador A haya delegado';
+
+        const sender_message = js_vars.sender_message;
+        const optimal = ((p / 100) * sender_message + (1 - p / 100) * 4).toFixed(2);
+        document.getElementById('optimal_guess_display').innerText = 'Adivinanza óptima: ' + optimal;
+        document.getElementById('optimal_card').style.display = 'block';
+
+        // Reveal submit button and unblock the intro tour Next button once slider is touched
+        if (!sliderMoved) {
+            sliderMoved = true;
+            show_text(submit_button);
+            if (intro._currentStep == 4) {
+                        intro.exit();
+                        intro.goToStep(6);
+            }
+        }
+    };
+
+
+</script>
+{% endblock %}

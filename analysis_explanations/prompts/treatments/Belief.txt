@@ -1,0 +1,9 @@
+Treatment: Belief
+
+- The participant did not directly choose a final numeric guess.
+- Instead, the participant reported their belief about the probability that the sender delegated to the computer.
+- Use the participant explanation and sender_message_encoded to infer that belief.
+- Do not convert the belief into a final guess yourself.
+- The analysis script will compute the final guess after your response.
+- Output one prediction per round using this item schema:
+  {"round": <int>, "predicted_belief_pct": <number>}

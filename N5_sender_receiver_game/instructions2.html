@@ -1,0 +1,266 @@
+{{ block title }}
+El juego
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+        <h3>
+        <i class="fas fa-coins"></i>  ¿Cómo se determinarán tus ganancias?
+    </h3>
+
+    <p>
+        De las <b>{{ Constants.num_rounds }} rondas</b> en este juego,
+        el computador seleccionará aleatoriamente <b>la mitad de las rondas</b> para determinar tus ganancias finales.
+        Estas rondas se llaman <b>relevantes para el pago</b>. Si una ronda es seleccionada como relevante para el pago,
+        afecta directamente tus ganancias.
+    </p>
+
+    <p>
+        <b>No sabrás</b> qué rondas son relevantes para el pago.
+        Por lo tanto, debes tomar cada ronda en serio, ya que puede influir en tus ganancias.
+    </p>
+
+    <p>
+      <input id="genInfo_button" type="button" value="&#xf178" onclick="button_click(genInfo_button, genInfo);" />
+    </p>
+
+    <div id="genInfo" class="hidden-paragraph">
+        
+    <p>
+        <strong>Cuando eres el Jugador A:</strong> En cualquier ronda relevante para el pago,
+        <strong>tu pago depende solo de la adivinanza del Jugador B.</strong>
+        Específicamente, cuanto mayor sea la adivinanza de B (en una escala del 1 al 7), mayor será tu probabilidad de recibir el bono.
+        (Tu propio mensaje o el número secreto no afectan tu pago.)
+    </p>
+
+    <p>
+        <strong>Cuando eres el Jugador B:</strong> En cualquier ronda relevante para el pago,
+        <strong>tu pago depende solo de qué tan cerca esté tu adivinanza del número secreto.</strong>
+        Cuanto más cerca esté tu adivinanza del número secreto, mayor será tu probabilidad de recibir el bono.
+    </p>
+
+    <p>
+      <input id="info_button2" type="button" value="&#xf178" onclick="button_click(info_button2, paragraph2);" />
+    </p>
+
+    </div>
+
+      
+
+    <div id="paragraph2" class="hidden-paragraph">
+
+    <p>
+      A continuación, se presentan más detalles sobre estas fórmulas de pago:
+    </p>
+
+        <br>
+
+    <h3>
+         Ganancias del Jugador A:
+    </h3>
+
+    <p>
+      <b>El Jugador A</b> puede ganar un bono de <b>{{Constants.BONUS_AMOUNT}} pesos</b> dependiendo de la adivinanza del Jugador B.
+      La probabilidad de que el Jugador A gane este bono <b>aumenta</b> a medida que aumenta la adivinanza del Jugador B.
+      Esto significa que la adivinanza más alta (7) le da al Jugador A un 100% de probabilidad de obtener el bono, 
+      mientras que la adivinanza más baja (1) le da un 0% de probabilidad. 
+      (No importa si la adivinanza de B es mayor o menor que el propio mensaje de A.)
+  </p>
+
+<!-- Botón para activar el modal -->
+
+<button type="button" name="more_info" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo">
+  Mostrar fórmula detallada de probabilidad
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="moreinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Descripción detallada del pago del Jugador A</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+    La adivinanza del Jugador B es un número entre 1 y 7. Este número se utiliza para determinar
+            el pago del Jugador A según la siguiente fórmula:
+</p>
+
+<div class="card bg-light my-3">
+  <div class="card-body">
+    <p class="text-center" style="font-size: 0.8rem;">
+      <b>Probabilidad de que el Jugador A reciba {{ Constants.BONUS_AMOUNT }} pesos (en porcentaje)=</b>
+    </p>
+    <p class="text-center" style="font-size: 1.5rem;">
+        <math>
+  <mfrac>
+    <mrow>
+      <mi>Adivinanza&nbsp;del&nbsp;Jugador&nbsp;B&nbsp;-&nbsp;1</mi>
+    </mrow>
+    <mn>6</mn>
+  </mfrac>
+  <mo>&times;</mo>
+  <mn>100</mn>
+        </math>
+    </p>
+  </div>
+</div>
+
+
+<p>
+    La fórmula toma la diferencia entre la adivinanza del Jugador B y 1. El número resultante
+    se divide por 6 y luego se multiplica por 100. 
+</p>
+
+<p>
+    Supongamos que la adivinanza del Jugador B es igual a 7. En este caso, la diferencia es 6,
+    y la probabilidad de que el Jugador A gane el bono es del 100%. En contraste, cuando la adivinanza del Jugador B es 1,
+    la diferencia es igual a 0. Esto implica que la probabilidad de que el Jugador A gane el bono es del 0%.
+</p>
+
+<p>
+    El principio subyacente de la fórmula es simple: Cuanto más cerca esté la adivinanza del Jugador B de la adivinanza más alta posible,
+    mayor será la probabilidad de que el Jugador A reciba un pago de <b>{{Constants.BONUS_AMOUNT}} pesos</b>.
+</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</p>
+
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button3, paragraph3);" />
+</p>
+
+    </div>
+
+
+  <div id="paragraph3" class="hidden-paragraph">
+<p></p>
+<br>
+<h3>
+    Ganancias del Jugador B:
+</h3>
+
+<p>
+  <b>El Jugador B</b> puede ganar un bono de <b>{{ Constants.BONUS_AMOUNT }} pesos</b> dependiendo de qué tan cerca 
+  esté su adivinanza del número secreto. Cuanto más cerca esté la adivinanza, mayor será la probabilidad de ganar el bono.
+</p>
+
+
+<!-- Botón para activar el modal -->
+
+<button type="button" name="more_info2" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreinfo2">
+    Mostrar fórmula detallada de probabilidad
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="moreinfo2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Descripción detallada del pago del Jugador B</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+ <p>
+    La adivinanza del Jugador B es un número entre 1 y 7.
+     Este número se utiliza para determinar el pago del Jugador B según la siguiente fórmula:
+</p>
+
+<div class="card bg-light my-3">
+  <div class="card-body">
+    <p class="text-center" style="font-size: 0.8rem;">
+      <b>Probabilidad de que el Jugador B reciba {{ Constants.BONUS_AMOUNT }} pesos (en porcentaje)=</b>
+    </p>
+    <p class="text-center" style="font-size: 1rem;">
+      <math>
+  <mn>100</mn>
+  <mo>-</mo>
+  <mrow>
+    <mfrac>
+      <mn>100</mn>
+      <mn>36</mn>
+    </mfrac>
+  </mrow>
+  <mo>&times;</mo>
+  <mo>(</mo>
+  <mi>Número&nbsp;secreto</mi>
+  <mo>-</mo>
+  <mi>Adivinanza&nbsp;del&nbsp;Jugador&nbsp;B</mi>
+  <mo>)</mo>
+  <msup>
+    <mrow>
+      <mo></mo>
+    </mrow>
+    <mn>2</mn>
+  </msup>
+</math>
+
+    </p>
+  </div>
+</div>
+
+<p>
+    La fórmula toma el cuadrado de la diferencia entre la adivinanza del Jugador B y el número secreto.
+    El número resultante se multiplica por una constante y luego se resta de 100.
+</p>
+
+<p>
+    Supongamos que la adivinanza del Jugador B es exactamente igual al número secreto.
+    En este caso, la diferencia es cero, y la probabilidad de que el Jugador B gane el bono es del 100%.
+    A medida que la adivinanza del Jugador B se aleja del valor verdadero del número secreto,
+    la diferencia se hace mayor, lo que disminuye la probabilidad de ganar el bono.
+</p>
+
+<p>
+    El principio subyacente de la fórmula es simple: Cuanto más cerca esté la adivinanza del Jugador B del número secreto,
+    mayor será la probabilidad de que el Jugador B reciba un pago de <b>{{ Constants.BONUS_AMOUNT }} pesos</b>.
+</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</p>
+
+</p>
+  </div>
+
+    </div>
+    </div>
+
+<div id="next" style="display: none">
+        <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

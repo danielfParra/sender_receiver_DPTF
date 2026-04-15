@@ -21,15 +21,12 @@ class Player(BasePlayer):
     pass
 
 class PaymentInfo(Page):
-
     def vars_for_template(self):
-        payoff = self.participant.payoff
         return dict(
-            payoff=Currency(payoff),
+            payoff=self.participant.payoff,  # total bonus from all apps
+            show_up_fee=self.session.config['participation_fee'],
+            total_payment=self.participant.payoff_plus_participation_fee()
         )
-#
-# class Redirect(Page):
-#     pass
 
 
 page_sequence = [PaymentInfo]

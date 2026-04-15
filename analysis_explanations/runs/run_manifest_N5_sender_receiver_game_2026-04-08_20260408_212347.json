@@ -1,0 +1,43 @@
+{
+  "timestamp_utc": "2026-04-08T21:23:47.542653",
+  "input_file": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\data_raw\\N5_sender_receiver_game_2026-04-08.csv",
+  "prompts_dir": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts",
+  "env_file": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\.env",
+  "round_for_explanations": 24,
+  "selected_rounds": [
+    2,
+    3,
+    4,
+    9,
+    12,
+    13,
+    18,
+    19,
+    20,
+    24
+  ],
+  "seed": 155254276,
+  "sample_size": 10,
+  "model": "gpt-5.4-mini",
+  "temperature": 0,
+  "prompt_schema_version": 2,
+  "scoring_rule": "threshold_bonus_abs_diff_leq_1",
+  "bonus_rule": "bonus_probability_equals_share_of_matches_across_sampled_rounds",
+  "belief_prediction_mode": "predict_belief_then_compute_guess",
+  "treatments_seen": [
+    "NoUncertainty"
+  ],
+  "treatment_prompt_files": {
+    "ExpertRep": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts\\treatments\\ExpertRep.txt",
+    "FixBelief": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts\\treatments\\FixBelief.txt",
+    "NoUncertainty": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts\\treatments\\NoUncertainty.txt",
+    "Belief": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\prompts\\treatments\\Belief.txt"
+  },
+  "result_csv": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\results\\explanation_results_N5_sender_receiver_game_2026-04-08_20260408_212347.csv",
+  "raw_llm_csv": "C:\\Users\\danie\\Dropbox (Personal)\\CheapTalk_Honesty\\otree\\SR_otree-NEW-2026\\analysis_explanations\\runs\\raw_llm_N5_sender_receiver_game_2026-04-08_20260408_212347.csv",
+  "participants_total": 16,
+  "participants_empty_explanation": 1,
+  "participants_ok": 15,
+  "participants_missing_round_data": 0,
+  "participants_llm_error": 0
+}

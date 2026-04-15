@@ -1,0 +1,32 @@
+{{ block title }}
+Ronda {{player.round_number}}
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+<style type="text/css">
+.otree-timer {
+    font-size: x-large;
+    text-align: center;
+    background-color: whitesmoke;
+    border: solid #6c757d;
+    display: block;
+    margin-left: auto;  /* Usar auto para centrar */
+    margin-right: auto; /* Agregar esto para centrar el elemento */
+    width: 100%;
+}
+
+.page-header {
+    text-align: center;
+}
+</style>
+
+{{ endblock }}
+
+{{ block content }}
+
+
+{{ endblock }}

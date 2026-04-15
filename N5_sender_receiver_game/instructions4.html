@@ -1,0 +1,59 @@
+{{ block title }}
+Instrucciones
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card border-warning mb-4 shadow-sm previous-instructions-card" role="alert">
+    <div class="card-header bg-warning text-dark fst-italic" style="font-size: 0.9em;">Instrucciones del experimento anterior</div>
+    <div class="card-body">
+
+<h3><i class="fas fa-list-ol"></i> Resumen: Cada ronda del Juego se desarrolla de la siguiente manera:</h3>
+        <ol>
+            <li><i class="fas fa-dice"></i> El computador genera un <b>número secreto</b>.</li>
+            <li><i class="fas fa-envelope"></i> <b>Jugador A</b> envía un mensaje a <b>Jugador B</b>.</li>
+            <li><i class="fas fa-question-circle"></i> <b>Jugador B</b> recibe el mensaje y adivina el número secreto.</li>
+            <li><i class="fas fa-chart-bar"></i> Ambos jugadores reciben <b>retroalimentación</b>.</li>
+        </ol>
+<p>
+    <input id="info_button3" type="button" value="&#xf178" onclick="buttonAppear(); button_click(info_button3, paragraph3);" />
+</p>
+
+<div id="paragraph3" class="hidden-paragraph">
+      <h3>Puntos importantes a recordar</h3>
+<ul>
+    <li>El bono que puede ganar el Jugador A siempre es el mismo, pero tiene más probabilidad de ganarlo si el Jugador B adivina un número más alto.</li>
+    <li>El bono que puede ganar el Jugador B también es fijo, pero su probabilidad de ganarlo aumenta si su adivinanza está más cerca del número secreto.</li>
+    <li>El Jugador A no conoce el número secreto al enviar un mensaje.</li>
+    <li>El Jugador A puede elegir enviar cualquier número 1, 2, 3, 4, 5, 6, 7 o puede delegar la decisión al computador 🤖, quien envía el verdadero número secreto.</li>
+    <li>El Jugador B nunca sabrá si el Jugador A delegó la decisión al computador o no.</li>
+<!--    <li>El Jugador B sabe que el Jugador A no conoce el número secreto.</li>-->
+</ul>
+
+
+<p>
+    El experimento termina después de <b>{{Constants.num_rounds}} rondas</b>.
+</p>
+    </div>
+        </div>
+    </div>
+<div id="next" style="display: none">
+        <button class="otree-btn-next btn btn-primary">Continuar</button>
+</div>
+
+{{ endblock }}
+
+{% block scripts %}
+
+<!-- Cargar las funciones JavaScript personalizadas -->
+
+<script src="{% static 'global/myJs.js' %}"></script>
+<script src="https://kit.fontawesome.com/46026ecfac.js" crossOrigin="anonymous"></script>
+
+{% endblock %}

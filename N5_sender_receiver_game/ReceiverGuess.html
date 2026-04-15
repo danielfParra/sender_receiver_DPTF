@@ -1,0 +1,265 @@
+{% extends "global/Base.html" %}
+
+{% block content %}
+<div style="display: flex; margin: 0;">
+
+
+    <!-- Left panel -->
+<div class="left-pane" style="width: 50%; background-color: #f8f9fa; padding: 20px; box-sizing: border-box; overflow-y: auto; border-right: 1px solid #ddd;">
+
+    {{ include Constants.ReceiverReminder }}
+    
+</div>
+
+    <!-- Right panel -->
+    <div class="right-pane" style="width: 50%; background-color: #fff; padding: 20px; box-sizing: border-box; overflow-y: auto;">
+        <h3 data-intro="Número de ronda" data-step="3">Ronda {{player.round_number}}: Adivina el número secreto</h3>
+
+        {% if player.participant.treatment == 'NoUncertainty' %}
+        <p>Eres el Jugador B. Tu tarea es enviar una sola adivinanza, que se evaluará contra todos los números secretos del grupo.</p>
+        {% else %}
+        <p>Eres el Jugador B. Tu tarea es adivinar el número secreto.</p>
+        {% endif %}
+
+        <div class="d-flex justify-content-center" data-intro="Mensaje del Jugador A." data-step="5" id="message-box">
+            <div class="card text-dark bg-light mb-3" style="width: 24rem;">
+                <div class="card-body text-center">
+                    {% if player.participant.treatment == 'NoUncertainty' %}
+                    <h5 class="card-title">Mensaje de los Jugadores A:</h5>
+                    {% else %}
+                    <h5 class="card-title">Mensaje del Jugador A:</h5>
+                    {% endif %}
+                    <p class="card-text">Para recibir el pago más alto, deberías elegir <b><span id="encoded_message"></span> </b>.</p>
+                </div>
+            </div>
+        </div>
+
+        {% if player.participant.treatment == 'NoUncertainty' %}
+        <div class="card border-info mb-3" role="alert">
+            <div class="card-header bg-info-subtle"><b>Información de esta ronda</b></div>
+            <div class="card-body py-2">
+                <div id="bundle_visual" class="mb-2"></div>
+                <p class="mb-0">Este mensaje viene de 4 participantes A: <b>{{ x_count }}</b> delegaron al computador y <b>{{ strategic_sender_count }}</b> no delegaron (eligieron el mensaje por su cuenta).</p>
+            </div>
+        </div>
+        {% elif player.participant.treatment == 'FixBelief' %}
+        <div class="card border-info mb-3" role="alert">
+            <div class="card-header bg-info-subtle"><b>Información de esta ronda</b></div>
+            <div class="card-body py-2">
+                <div id="bundle_visual" class="mb-2"></div>
+                <p class="mb-0">Este mensaje viene de 4 participantes A: <b>{{ x_count }}</b> delegaron al computador y <b>{{ strategic_sender_count }}</b> no delegaron (eligieron el mensaje por su cuenta).</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <div id="receiver_guess" class="hidden-paragraph">
+
+        <!-- Regular treatment: direct guess slider -->
+        <div id="regular_guess_section">
+
+        {% if player.participant.treatment == 'NoUncertainty' %}
+        <p>
+            Por favor, haz una sola adivinanza. Puedes ingresar cualquier número entre 1 y 7, incluyendo decimales.
+        </p>
+        {% else %}
+        <p>
+            Por favor adivina el número secreto. Puedes ingresar cualquier número entre 1 y 7, incluyendo decimales.
+        </p>
+        {% endif %}
+
+        <h4 class="card-title" data-intro="Deslizador de adivinanza" data-step="6">Mueve el deslizador para seleccionar tu adivinanza.</h4>
+        <br>
+        <div style="max-width: 420px; margin: 0 auto;">
+            <input id="slider" value="1" type="range" name="receiver_guess"
+                   oninput="updateDescription(this)" step="0.1"
+                   class="form-range" min="1" max="7"
+                   style="width: 100%; margin-bottom: 4px;">
+            <div style="display: flex; justify-content: space-between; padding: 0 3px; font-size: 0.85rem; color: #555;">
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+            </div>
+            <div class="text-center mt-3">
+                <span id="description" style="background:#0d6efd; color:#fff; padding: 5px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500;"></span>
+            </div>
+        </div>
+        </div><!-- end regular_guess_section -->
+
+        <!-- Belief treatment: belief % slider -->
+        <div id="belief_guess_section" class="hidden-paragraph">
+        <p>
+            ¿Cuál es la probabilidad (en porcentaje) de que el Jugador A <strong>haya delegado al computador</strong> (es decir, que haya enviado el número secreto verdadero)?
+        </p>
+        <h4>Mueve el deslizador para reportar tu creencia.</h4>
+        <br>
+        <div style="max-width: 420px; margin: 0 auto;">
+            <input id="belief_slider" value="0" type="range"
+                   oninput="updateBelief(this)" step="1"
+                   class="form-range" min="0" max="100"
+                   style="width: 100%; margin-bottom: 4px;">
+            <div style="display: flex; justify-content: space-between; padding: 0 3px; font-size: 0.85rem; color: #555;">
+                <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+            </div>
+            <div class="text-center mt-3">
+                <span id="belief_description" style="background:#0d6efd; color:#fff; padding: 5px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500;"></span>
+            </div>
+            <div class="card bg-light mt-3">
+                <div class="card-body text-center">
+                    <p class="mb-1"><small>Según tu creencia, la adivinanza óptima es:</small></p>
+                    <span id="optimal_guess_display" style="background:#198754; color:#fff; padding: 5px 20px; border-radius: 20px; font-size: 1.1rem; font-weight: 600;"></span>
+                    <p class="mt-2 mb-0"><small>El computador enviará esta adivinanza por ti.</small></p>
+                </div>
+            </div>
+            <input type="hidden" name="belief_honest_pct" id="belief_honest_pct_input" value="0">
+        </div>
+        </div><!-- end belief_guess_section -->
+
+        <input type="hidden" name="guess_confirmed" id="guess_confirmed_input" value="false">
+
+        <br>
+        <div id="submit_button" class="hidden-paragraph" data-intro="Botón de envío" data-step="7">
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button id="submitBtn" type="button" class="btn btn-success btn-lg btn-block" onclick="lockAndWait()">Continuar</button>
+            </div>
+            <!-- Waiting message shown after submission 
+            <div id="waitingMessage" class="text-center mt-3" style="display: none;">
+                <div class="alert alert-info">
+                    Su elección ha sido registrada. Por favor, espere hasta que expire el tiempo...
+                </div>
+            </div>-->
+        </div>
+        </div>
+
+
+
+        {{ formfield_errors 'receiver_guess' }}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+ <script>
+
+            let description = document.getElementById('description');
+            function updateDescription(input) {
+                document.getElementById("slider").setAttribute("max", js_vars.max_guess);
+                document.getElementById("slider").setAttribute("min", js_vars.min_guess);
+                let receiver_guess = parseFloat(input.value).toFixed(1);
+                description.innerText = `Tu número adivinado: ${receiver_guess}`;
+
+                if (parseFloat(input.value) >= 1 && parseFloat(input.value) <= 7) {
+                    show_text(submit_button);
+                } else {
+                    hide_text(submit_button);
+                }
+            }
+
+            function updateBelief(input) {
+                const p = parseInt(input.value);
+                document.getElementById('belief_honest_pct_input').value = p;
+                const sender_message = js_vars.sender_message;
+                const optimal = (p / 100) * sender_message + (1 - p / 100) * 4;
+                const optimalRounded = Math.max(1, Math.min(7, optimal)).toFixed(1);
+                document.getElementById('slider').value = optimalRounded;
+                document.getElementById('belief_description').innerText = `Tu creencia: ${p}% de probabilidad de delegación`;
+                document.getElementById('optimal_guess_display').innerText = `Adivinanza óptima: ${optimalRounded}`;
+                show_text(submit_button);
+            }
+        </script>
+
+<script>
+    function renderBundleVisual(containerId, xCount) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const total = 4;
+        const delegated = Math.max(0, Math.min(total, parseInt(xCount || 0)));
+        const strategic = total - delegated;
+        let html = '<div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; margin-bottom:6px;">';
+
+        for (let i = 0; i < total; i++) {
+            const isDelegated = i < delegated;
+            const bg = isDelegated ? '#e8f7ff' : '#fff3e8';
+            const border = isDelegated ? '#7cc5e8' : '#f0b27a';
+            const icon = isDelegated ? '🤖' : '👤';
+            const label = isDelegated ? 'Computador' : 'Eligió';
+
+            html +=
+                '<div style="border:1px solid ' + border + '; background:' + bg + '; border-radius:8px; padding:8px; text-align:center;">' +
+                '<div style="font-size:1.25rem; line-height:1;">' + icon + '</div>' +
+                '<div style="font-size:0.72rem; margin-top:4px;">' + label + '</div>' +
+                '</div>';
+        }
+
+        html += '</div>';
+        html += '<div style="font-size:0.82rem; color:#444;">🤖 Delegaron: <b>' + delegated + '</b> | 👤 No delegaron: <b>' + strategic + '</b></div>';
+        container.innerHTML = html;
+    }
+
+    window.onload = function() {
+        
+        const encoded_message = js_vars.encoded_message;
+        document.getElementById('encoded_message').innerHTML = encoded_message;
+
+        if (js_vars.treatment === 'FixBelief' || js_vars.treatment === 'NoUncertainty') {
+            renderBundleVisual('bundle_visual', js_vars.x_count);
+        }
+
+        if (js_vars.treatment === 'Belief') {
+            document.getElementById('regular_guess_section').style.display = 'none';
+            show_text(document.getElementById('belief_guess_section'));
+            show_text(receiver_guess);
+            // NO llamar updateBelief al cargar — el deslizador inicia en blanco hasta que el usuario lo mueva
+        } else {
+            show_text(receiver_guess);
+        }
+    };
+
+
+    function show_text (element) {
+        element.classList.remove('hidden-paragraph');
+    }
+
+    function hide_text (element) {
+        element.classList.add('hidden-paragraph');
+    }
+
+    function lockAndWait() {
+        // Get the slider value
+        const slider = document.getElementById('slider');
+        const sliderValue = parseFloat(slider.value);
+        
+        // Validate input
+        if (isNaN(sliderValue) || sliderValue < 1 || sliderValue > 7) {
+            alert("Por favor ingresa una adivinanza válida antes de continuar.");
+            return;
+        }
+        
+        // Set the confirmed field
+        document.getElementById('guess_confirmed_input').value = true;
+
+        // Submit the form immediately
+        document.querySelector('form').submit();
+        
+        // Visual feedback (shown briefly before navigation)
+        slider.style.pointerEvents = 'none';
+        slider.style.opacity = '0.7';
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('waitingMessage').style.display = 'block';
+
+        if (js_vars.treatment === 'Belief') {
+            document.getElementById('belief_slider').style.pointerEvents = 'none';
+            document.getElementById('belief_slider').style.opacity = '0.7';
+        }
+
+    }
+
+</script>
+{% endblock %}
+
+{% block styles %}
+
+<!-- Load custom CSS styles -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+
+
+{% endblock %}

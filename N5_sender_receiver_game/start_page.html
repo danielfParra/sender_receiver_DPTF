@@ -1,0 +1,52 @@
+{{ block title }}
+Comenzaremos el Juego en la Próxima Pantalla
+{{ endblock }}
+
+{{ block styles }}
+<!-- Cargar los estilos CSS personalizados -->
+<link rel="stylesheet" href="{% static 'global/myStyle.css' %}">
+<link rel="stylesheet" href="{% static 'global/myStyleButton.css' %}">
+<style>
+    .start-game-prompt {
+        margin: 1rem 0 1.25rem 0;
+        padding: 1rem 1.25rem;
+        border: 2px solid #d39e00;
+        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+        color: #5c4400;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .start-game-button {
+        min-width: 260px;
+        padding: 0.85rem 1.75rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+</style>
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light m-3">
+    <div class="card-body ">
+
+    <p>
+        Ahora comenzaremos el juego. En cada ronda, el Jugador A tendrá <b>{{Constants.TIME_PER_ROUND }} segundos</b> para
+        elegir qué mensaje enviarte.
+    </p>
+    <p>
+        Luego, tendrás {{Constants.TIME_PER_ROUND }} segundos para
+        enviar tu adivinanza. Después de que hagas una adivinanza, observarás la retroalimentación durante 5 segundos.
+        Luego, comienza una nueva ronda.
+    </p>
+
+    <div class="start-game-prompt">
+        Oprime <b>Continuar</b> para empezar la primera ronda.
+    </div>
+
+    </div>
+</div>
+    <button class="otree-btn-next btn btn-primary start-game-button">Continuar</button>
+
+{{ endblock }}
